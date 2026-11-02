@@ -1,0 +1,3 @@
+// One account label rule for every preview header. Full email belongs on the account page.
+export function formatAccountLabel(value){const email=String(value??'').trim(),at=email.lastIndexOf('@');if(at<1)return '账号';const local=email.slice(0,at),visible=Math.min(2,Math.floor((local.length-1)/2));return (visible?local.slice(0,visible)+'***'+local.slice(-visible):'***')+'@'+email.slice(at+1);}
+if(typeof document!=='undefined'&&!document.querySelector('[data-account-identity-styles]')){const link=document.createElement('link');link.rel='stylesheet';link.href=new URL('./account-identity.css',import.meta.url).href;link.dataset.accountIdentityStyles='';document.head.append(link);}

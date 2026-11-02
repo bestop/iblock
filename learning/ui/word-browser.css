@@ -1,0 +1,43 @@
+/* Search visuals live in search-field.css; this file owns layout and results. */
+:root{--ui-search-nav-gap:var(--ui-nav-content-gap,8px)}
+.word-search-entry{margin:var(--ui-search-nav-gap) 0 24px}.word-search-entry-end{margin-left:auto;white-space:nowrap;color:var(--ui-text-tertiary);font-size:14px}.category-drawer-panel>.word-search-entry{margin:0 0 16px;text-align:left}.word-browser{padding-top:16px}.word-search-form{margin:0 0 16px}
+.word-browser-filters{margin:0 0 16px;padding:2px;scroll-padding-inline:2px}.word-result-count{font-size:14px;line-height:22px;color:var(--ui-text-tertiary);margin-bottom:24px}.word-result-group{margin:0 0 32px}.word-result-group>h2{font-size:18px;line-height:26px;font-weight:500;color:var(--ui-text-primary);margin:0 0 12px}.word-result-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.word-result-card{min-width:0;display:block;background:var(--ui-surface);border:1px solid var(--ui-card-stroke);border-radius:16px;overflow:hidden;touch-action:manipulation}.word-result-image{position:relative;aspect-ratio:5/4;background:rgb(0 0 0 / 2%)}.word-result-image img{display:block;width:100%;height:100%;object-fit:contain}.word-result-copy{padding:12px 14px 14px}.word-result-copy h3{font-size:16px;line-height:24px;font-weight:500;color:var(--ui-text-primary);overflow-wrap:anywhere;text-wrap:wrap}.word-result-copy p{font-size:14px;line-height:22px;color:var(--ui-text-tertiary);margin-top:2px;text-wrap:wrap;overflow-wrap:anywhere}.word-result-lock{position:absolute;right:8px;bottom:8px;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:rgb(0 0 0 / 12%);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:white}.word-result-lock svg{width:16px;height:16px}.word-load-more,.word-reset{display:block;min-height:44px;padding:10px 20px;margin:0 auto;border:0;border-radius:var(--ui-radius);background:var(--ui-green-light);color:var(--ui-green);font:400 16px/24px var(--ui-font)}.word-load-more[hidden]{display:none}.word-search-empty{padding:48px 16px;text-align:center}.word-search-empty>svg{width:32px;height:32px;color:var(--ui-text-quaternary);margin-bottom:12px}.word-search-empty h2{font-size:20px;line-height:28px;font-weight:500}.word-search-empty p{color:var(--ui-text-tertiary);font-size:16px;line-height:26px;margin-top:8px}.word-search-empty button{margin-top:24px}
+@media(max-width:1000px){.word-result-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:700px){.word-result-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.word-result-copy{padding:10px 12px 12px}}
+
+:is(.word-result-card,.word-load-more,.word-reset,.word-browser-filters button){-webkit-tap-highlight-color:transparent;touch-action:manipulation;appearance:none;-webkit-appearance:none}.word-load-more:active,.word-reset:active,.word-browser-filters button:active{background:var(--ui-green-light);color:var(--ui-green)}
+
+/* Keep search and category choices below the shared fixed navigation. */
+.word-browser{padding-top:0}
+.word-browser-controls{position:sticky;top:calc(var(--ui-nav-height) + env(safe-area-inset-top,0px) + var(--ui-nav-content-gap));z-index:40;margin-inline:-20px;padding:0 20px 12px;background:var(--ui-nav-glass-fill);-webkit-backdrop-filter:blur(var(--ui-nav-glass-blur));backdrop-filter:blur(var(--ui-nav-glass-blur));border-bottom:var(--ui-divider-width,.5px) solid var(--ui-card-stroke);isolation:isolate}
+.word-browser-controls .word-search-form{margin-bottom:12px}.word-browser-controls .word-browser-filters{margin:0;padding-block:2px}.word-browser-controls+.word-result-count{margin-top:16px}
+
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.word-browser-controls{background:rgb(255 255 255 / 94%)}}
+/* One continuous glass surface prevents a seam between two backdrop filters. */
+body:has(.word-browser-controls) .list-header{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:0}
+.word-browser-controls{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
+.word-browser-controls::before{content:"";position:absolute;z-index:-1;top:calc(-1 * (var(--ui-nav-height) + env(safe-area-inset-top,0px) + var(--ui-nav-content-gap)));bottom:0;left:calc(50% - 50vw);width:100vw;pointer-events:none;background:var(--ui-nav-glass-fill);-webkit-backdrop-filter:blur(var(--ui-nav-glass-blur));backdrop-filter:blur(var(--ui-nav-glass-blur))}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.word-browser-controls::before{background:rgb(255 255 255 / 94%)}}
+
+.word-result-count[hidden]{display:none}.word-browser-controls:has(+.word-result-count[hidden]){margin-bottom:20px}
+
+/* Static and API-loading states share the same geometry as the real word cards. */
+.startup-word-browser{display:none}.startup-word-browser-page .startup-skeleton,.startup-word-browser-page .startup-favorites{display:none}.startup-word-browser-page .startup-word-browser{display:block}
+.word-skeleton-block,.word-filter-skeleton>span,.word-skeleton-image,.word-skeleton-copy>span{display:block;background:rgb(0 0 0 / 3%);border-radius:6px}
+.word-filter-skeleton{display:flex;gap:8px;overflow:hidden;height:40px;padding-block:2px}.word-filter-skeleton>span{flex:none;width:104px;height:36px}.word-filter-skeleton>span:first-child{width:56px}
+.word-skeleton-card{overflow:hidden;border:1px solid var(--ui-card-stroke);border-radius:16px;background:var(--ui-surface)}.word-skeleton-image{aspect-ratio:5/4;border-radius:0}.word-skeleton-copy{padding:12px 14px 14px}.word-skeleton-copy>span:first-child{width:65%;height:20px}.word-skeleton-copy>span+span{width:40%;height:16px;margin-top:8px}
+.startup-word-browser>.list-header .word-skeleton-block{width:72px;height:18px;justify-self:center}.word-skeleton-back{width:36px;height:36px;border-radius:50%;background:rgb(0 0 0 / 3%)}.word-skeleton-search{height:52px;border:1px solid var(--ui-card-stroke);border-radius:12px;background:rgb(0 0 0 / 3%);margin-bottom:12px}.word-skeleton-heading{width:112px;height:22px;margin:20px 0 12px}
+@media(max-width:700px){.word-skeleton-copy{padding:10px 12px 12px}}
+
+.category-drawer-overlay .category-drawer-panel:has(>.word-search-entry){padding-top:var(--ui-search-nav-gap)}
+
+/* Compact navigation row, visually distinct from a search input. */
+.category-drawer-panel>.word-catalog-banner{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 16px;padding:14px 16px;min-height:52px;border:0;border-radius:var(--ui-radius,12px);background:rgb(0 0 0 / 2%);color:var(--ui-text-primary);text-decoration:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:background-color 120ms ease-out}
+.word-catalog-banner>strong{font-size:16px;line-height:24px;font-weight:500;text-align:left}.word-catalog-banner-end{display:flex;align-items:center;gap:4px;flex:none;color:var(--ui-text-tertiary);font-size:14px;line-height:22px;font-weight:400;white-space:nowrap}.word-catalog-banner-end>svg{display:block;flex:none;stroke-width:1.75}.category-drawer-panel>.word-catalog-banner:active{background:rgb(0 0 0 / 4%)}.word-catalog-banner:focus-visible{outline:2px solid var(--ui-focus);outline-offset:2px}
+.category-drawer-overlay .category-drawer-panel:has(>.word-catalog-banner){padding-top:var(--ui-search-nav-gap)}
+@media(prefers-reduced-motion:reduce){.word-catalog-banner{transition:none}}
+
+/* Word-category search is a navigation action, not an editable field. */
+.list-header>.word-search-nav-link{grid-column:3;justify-self:end;display:flex;align-items:center;justify-content:center;width:44px;height:44px;flex:none;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ui-text-tertiary);text-decoration:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:background-color 120ms ease-out}
+.word-search-nav-link>svg{display:block;width:20px;height:20px;stroke-width:1.75}.list-header>.word-search-nav-link:active{background:rgb(0 0 0 / 4%)}.word-search-nav-link:focus-visible{outline:2px solid var(--ui-focus);outline-offset:0}.list-header:has(>.word-search-nav-link)+.topic-list-grid{padding-top:0}
+@media(prefers-reduced-motion:reduce){.list-header>.word-search-nav-link{transition:none}}

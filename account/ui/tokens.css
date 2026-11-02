@@ -1,0 +1,63 @@
+/* Canonical tokens extracted from the existing account/admin UI. */
+:root {
+  --ui-font:system-ui,-apple-system,"PingFang SC","Microsoft Yahei",sans-serif;
+  /* Neutral text tiers blend with the actual surface; never fade whole elements. */
+  --ui-text-primary:rgb(0 0 0 / 88%);
+  --ui-text-secondary:rgb(0 0 0 / 75%);
+  --ui-text-tertiary:rgb(0 0 0 / 60%);
+  --ui-text-quaternary:rgb(0 0 0 / 46%);
+  --ui-text:var(--ui-text-secondary);
+  --ui-muted:var(--ui-text-tertiary);
+  --ui-placeholder:var(--ui-text-quaternary);
+  --ui-green:#287f70;
+  --ui-green-hover:#206d60;
+  --ui-green-light:#edf4f1;
+  --ui-focus:#82b7a9;
+  --ui-focus-halo:#287f701a;
+  --ui-border:#c9d5d5;
+  --ui-divider:#e3e8e3;
+  --ui-divider-width:.5px;
+  --ui-error:#b64040;
+  --ui-error-halo:#b640401a;
+  --ui-body-size:16px;
+  --ui-small-size:14px;
+  --ui-secondary-weight:400;
+  --ui-page-title-size:30px;
+  --ui-section-title-size:24px;
+  --ui-subtitle-size:18px;
+  --ui-control-height:52px;
+  --ui-compact-height:44px;
+  --ui-quick-height:36px;
+  --ui-radius:12px;
+  --ui-tab-inset:4px;
+  --ui-tab-radius:9px;
+  --ui-tab-surface:#f4f6f4;
+  --ui-tab-selected-surface:#fff;
+  --ui-tab-selected-shadow:0 1px 4px #263c2b0a;
+  --ui-tab-duration:180ms;
+  --ui-heading-description-gap:6px;
+  --ui-description-content-gap:16px;
+  --ui-field-action-gap:20px;
+  --ui-auth-link-gap:6px;
+
+  --ui-surface:#fff;
+  --ui-cover-image-ratio:16 / 9;
+  --ui-content-image-ratio:5 / 4;
+  --ui-card-stroke:rgb(0 0 0 / 5%);
+  /* Open menu PANEL outline only. Never apply to triggers or menu items. */
+  --ui-menu-stroke:rgb(0 0 0 / 5%);
+  --ui-tag-surface:rgb(0 0 0 / 3%);
+  --ui-image-tag-surface:rgb(0 0 0 / 5%);
+  --ui-tag-blur:10px;
+  --ui-nav-height:72px;
+  --ui-nav-content-gap:8px;
+  --ui-nav-optical-offset:3px;
+  --ui-nav-title-size:18px;
+  --ui-nav-glass-fill:rgb(255 255 255 / 70%);
+  --ui-nav-glass-blur:20px;
+  --ui-drawer-inset:20px;
+}
+@media(max-width:800px){:root{--ui-nav-height:64px}}
+
+/* A restored directory must never inherit the learning-home announcement. */
+body.topic-list-page>#hhx-release-notice{display:none!important}

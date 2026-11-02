@@ -1,0 +1,8 @@
+/* Shared login entry, extracted from the official homepage. Do not restyle per page. */
+.header nav .nav-auth,.bar nav .nav-auth{display:inline-block;min-height:0;border:1px solid rgb(40 127 112/.25);border-radius:99px;padding:11px 20px;color:#287f70;font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;font-weight:400;line-height:normal;white-space:nowrap;text-decoration:none;background:transparent}
+.header nav .nav-auth:hover,.bar nav .nav-auth:hover{color:#287f70}
+@media(max-width:700px){.header nav .nav-auth,.bar nav .nav-auth{padding:9px 12px;font-size:14px}}
+
+/* Hidden auth entries must win over the visual component display rule. */
+.header nav .nav-auth[hidden],.bar nav .nav-auth[hidden]{display:none!important}
+.header nav[aria-busy="true"]{min-width:124px;min-height:44px}

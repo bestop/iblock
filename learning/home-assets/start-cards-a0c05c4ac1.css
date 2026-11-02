@@ -1,0 +1,34 @@
+.uniform-start{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:36px;text-align:left}.start-path{display:flex;align-items:center;gap:20px;min-width:0;padding:28px 24px;background:#fff;border:1px solid var(--line);border-radius:20px}.start-path-art{width:64px;height:64px;flex:0 0 64px;display:grid;place-items:center}.start-path-art img{display:block;width:64px;height:64px;object-fit:contain;border-radius:12px;mix-blend-mode:multiply}.start-path-copy{flex:1;min-width:0}.start-kicker{display:block;color:var(--tertiary);font-size:13px;line-height:1.6;margin-bottom:8px}.start-path h3{font-size:18px;font-weight:650;line-height:1.45;margin:0 0 10px;letter-spacing:0}.start-path p{font-size:16px;line-height:1.7;color:var(--tertiary);margin:0;min-height:3.4em}.start-path a{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:16px;font-weight:500;color:var(--green);margin-top:10px}.start-path a svg{width:18px;height:18px}.start-path a:hover{color:var(--green-dark);text-decoration:none}.start-path a:focus-visible{outline:2px solid var(--green);outline-offset:5px;border-radius:4px}
+/* A baked-in gray scanner edge in this thumbnail is excluded from the display crop. */
+.horizontal-tile img[src*="/animals_and_friends-p03-c10.webp"]{clip-path:inset(4% 0 0)}
+:root{--ending-floor:#fff}:root,html,body{background:var(--ending-floor)}.creator,.footer.wrap{background:var(--ending-floor)}.footer:before{background:rgb(0 0 0/.055)}
+@media(max-width:1100px){.uniform-start{grid-template-columns:1fr;max-width:760px;margin-inline:auto;gap:16px}.start-path{padding:26px 32px;gap:28px}.start-path p{min-height:0}.start-path h3{font-size:20px}.start-kicker{font-size:14px}}
+@media(max-width:700px){.uniform-start{margin-top:28px;gap:14px}.start-path{padding:24px 20px;gap:20px}.start-path h3{font-size:18px;margin-bottom:8px}.start-path p{font-size:15px;line-height:1.65}.start-kicker{font-size:13px;margin-bottom:6px}.start-path a{margin-top:8px}.start-path-art,.start-path-art img{width:64px;height:64px}.start-path-art{flex-basis:64px}}
+@media(max-width:360px){.start-path{padding:20px 16px;gap:14px}.start-path-art,.start-path-art img{width:56px;height:56px}.start-path-art{flex-basis:56px}}
+
+/* Normalize the visible subject size inside existing padded thumbnails. */
+.start-path-art{overflow:hidden;border-radius:12px}.start-path-art img[src$="player-cutout.png"]{transform:scale(1.3)}.start-path-art img[src*="basic_block_world_things-p01-c12.webp"]{transform:scale(1.8)}
+
+/* Spacious desktop cards; tablet and mobile retain compact horizontal rows. */
+@media(min-width:1101px){.uniform-start .start-path{flex-direction:column;align-items:flex-start;gap:22px;padding:32px}.uniform-start .start-path-art{width:64px;height:64px;flex-basis:64px}.uniform-start .start-path-copy{display:flex;flex-direction:column;align-items:flex-start;width:100%;flex:1}.uniform-start .start-path-copy a{margin-top:14px}.uniform-start .start-kicker{margin-bottom:8px}.uniform-start .start-path h3{font-size:20px}.uniform-start .start-path p{min-height:3.4em}}
+
+/* Proximity: kicker → heading / heading → description / description → action = large / small / large. */
+.uniform-start .start-kicker{margin:0 0 16px}.uniform-start .start-path h3{margin:0 0 6px}.uniform-start .start-path p{margin:0;min-height:0}.uniform-start .start-path-copy a{margin-top:20px}
+.uniform-start .start-path-art img[src*="p06-c01.webp"]{transform:none;object-fit:contain;border-radius:12px}
+@media(max-width:700px){.uniform-start .start-kicker{margin-bottom:12px}.uniform-start .start-path h3{margin-bottom:6px}.uniform-start .start-path-copy a{margin-top:16px}}
+
+/* One cohesive illustration family, with equal optical scale and no enclosing tile. */
+.uniform-start .start-path-art{width:88px;height:88px;flex:0 0 88px;overflow:visible;border-radius:0;align-self:center}
+.uniform-start .start-path-art img{display:block;width:100%;height:100%;object-fit:contain;transform:none;border-radius:0;mix-blend-mode:normal}
+@media(min-width:1101px){.uniform-start .start-path-art{width:104px;height:104px;flex-basis:104px;align-self:flex-start}}
+@media(max-width:380px){.uniform-start .start-path-art{width:72px;height:72px;flex-basis:72px}}
+
+/* Compact, consistent card rhythm: label / title-description / action. */
+.uniform-start .start-path-copy{display:flex;flex-direction:column;align-items:flex-start}
+.uniform-start .start-kicker{margin-bottom:12px}
+.uniform-start .start-path h3{margin-bottom:6px}
+.uniform-start .start-path-copy a{margin-top:16px;min-height:44px}
+@media(min-width:1101px){.uniform-start .start-path{padding:28px;gap:20px}}
+@media(max-width:1100px){.uniform-start{gap:14px}.uniform-start .start-path{padding:24px 28px;gap:24px}}
+@media(max-width:700px){.uniform-start{gap:12px;margin-top:24px}.uniform-start .start-path{padding:20px;gap:18px}.uniform-start .start-kicker{margin-bottom:10px}.uniform-start .start-path h3{margin-bottom:4px}.uniform-start .start-path-copy a{margin-top:12px}}
+@media(max-width:380px){.uniform-start .start-path{padding:20px 16px;gap:14px}}

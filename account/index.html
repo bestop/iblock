@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><base href="/learning/account/"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,viewport-fit=cover"><title>登录与激活 · 很好学</title><link rel="icon" href="/icons/diamond-logo.png"><script src="/account/account-device-layout.js?v=20261017-keyboard"></script><link rel="stylesheet" href="/account/account-device-layout.css?v=20261017-keyboard"><script type="module" src="./account.js?v=20261025-entry-audit"></script><style id="account-startup-skeleton-style">#loading.account-skeleton{display:flex;flex-direction:column;gap:0;margin:0;padding:0}#loading.account-skeleton[hidden]{display:none}#loading .account-skeleton-block{display:block;background:#f4f6f3;border:0;border-radius:7px;flex:none}#loading .account-skeleton-tabs{height:52px;border-radius:12px}#loading .account-skeleton-title{width:45%;height:34px;margin:26px 0 20px}#loading .account-skeleton-input{height:52px;border-radius:12px}#loading .account-skeleton-input+.account-skeleton-input{margin-top:14px}#loading .account-skeleton-button{height:52px;border-radius:12px;margin-top:20px}#loading .account-skeleton-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px;margin-top:6px}#loading .account-skeleton-actions span{width:26%;height:16px}#loading .account-skeleton-actions span:last-child{width:42%}#loading .account-skeleton-contact{width:34%;height:16px;margin:28px auto 14px}@media(max-width:800px){#loading .account-skeleton-title{height:31px}}.auth-loading{display:none}.member-loading{display:flex;flex-direction:column;gap:14px}.auth-pending .auth-loading{display:block}.auth-pending .member-loading{display:none}.account-page.account-pending:not(.auth-pending) .intro{display:none}.account-page.account-pending:not(.auth-pending) #main{grid-template-columns:minmax(0,1fr);max-width:520px;border:0}#loading .account-skeleton-user{height:92px;border-radius:16px;margin-bottom:12px}#loading .member-loading .account-skeleton-title{height:24px;margin:0;width:60%}#loading .account-skeleton-line{height:15px;width:88%}#loading .account-skeleton-label{height:15px;width:110px;margin-top:16px}#loading .account-skeleton-link{height:16px;width:42%;margin:6px auto 0}</style><link rel="apple-touch-icon" sizes="180x180" href="/app-icons/diamond-180-v2.png"><meta name="apple-mobile-web-app-title" content="很好学"><meta name="application-name" content="很好学"><link rel="manifest" href="/learning/site.webmanifest?v=launch-v1"><style data-shared-account-navigation>@import "../ui/components.css?v=20261024-back-press";
+/* Shared return navigation for account and management screens. */
+body:has(>.back-nav){--back-nav-height:72px;--back-nav-content-gap:12px}
+body>.back-nav{position:fixed!important;top:0!important;left:0;right:0;z-index:20;isolation:isolate;display:flex;align-items:center;box-sizing:border-box;height:calc(var(--back-nav-height) + env(safe-area-inset-top));padding-block:calc(env(safe-area-inset-top) + 12px) 12px!important;margin:0 auto;background:transparent}
+body>.back-nav::before{content:"";position:absolute;z-index:-1;pointer-events:none;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;background:rgba(255,255,255,.7);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+
+.back-nav-link svg{flex:none}
+.back-nav-link:focus-visible{outline:2px solid var(--ui-green);outline-offset:4px;border-radius:50%}
+.admin-page>.back-nav{width:100%;max-width:1100px;padding-inline:24px}
+.admin-page:has(>.back-nav)::before{content:"";display:block;height:calc(var(--back-nav-height) + env(safe-area-inset-top))}
+.admin-page:has(>.back-nav) .admin-main{margin-top:var(--back-nav-content-gap)}
+.admin-page:has(>.back-nav) .admin-title{margin-top:0}
+@media(max-width:800px){
+ body:has(>.back-nav){--back-nav-height:64px}
+ body>.back-nav{padding-block:calc(env(safe-area-inset-top) + 8px) 8px!important}
+ .admin-page>.back-nav{max-width:520px;padding-inline:20px}
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){body>.back-nav::before{background:rgba(255,255,255,.94)}}
+@media(max-width:800px),(min-width:801px) and (max-width:1199px) and (orientation:portrait){
+ .account-page:has(>.back-nav)::before{content:"";display:block;height:calc(var(--back-nav-height) + env(safe-area-inset-top));flex:none}
+}
+
+body>.back-nav .back-nav-link:is(:hover,:active,:focus,:visited){text-decoration:none}
+
+/* Account/workbench content uses the same reservation and gap as child pages. */
+.account-page:has(>.back-nav):not(.auth-pending):not(:has(#auth:not([hidden])))::before{content:"";display:block;height:calc(var(--back-nav-height) + env(safe-area-inset-top));flex:none}
+.account-page:has(>.back-nav):not(.auth-pending):not(:has(#auth:not([hidden]))) #main{margin-top:var(--back-nav-content-gap)}
+.account-page:has(>.back-nav):not(.auth-pending):not(:has(#auth:not([hidden]))) #main>.panel{padding-top:0}
+.account-page.admin-account #admin-home h2{margin-top:0}
+
+/* Canonical tokens extracted from the existing account/admin UI. */
+:root {
+  --ui-font:system-ui,-apple-system,"PingFang SC","Microsoft Yahei",sans-serif;
+  /* Neutral text tiers blend with the actual surface; never fade whole elements. */
+  --ui-text-primary:rgb(0 0 0 / 88%);
+  --ui-text-secondary:rgb(0 0 0 / 75%);
+  --ui-text-tertiary:rgb(0 0 0 / 60%);
+  --ui-text-quaternary:rgb(0 0 0 / 46%);
+  --ui-text:var(--ui-text-secondary);
+  --ui-muted:var(--ui-text-tertiary);
+  --ui-placeholder:var(--ui-text-quaternary);
+  --ui-green:#287f70;
+  --ui-green-hover:#206d60;
+  --ui-green-light:#edf4f1;
+  --ui-focus:#82b7a9;
+  --ui-focus-halo:#287f701a;
+  --ui-border:#c9d5d5;
+  --ui-divider:#e3e8e3;
+  --ui-divider-width:.5px;
+  --ui-error:#b64040;
+  --ui-error-halo:#b640401a;
+  --ui-body-size:16px;
+  --ui-small-size:14px;
+  --ui-secondary-weight:400;
+  --ui-page-title-size:30px;
+  --ui-section-title-size:24px;
+  --ui-subtitle-size:18px;
+  --ui-control-height:52px;
+  --ui-compact-height:44px;
+  --ui-quick-height:36px;
+  --ui-radius:12px;
+  --ui-tab-inset:4px;
+  --ui-tab-radius:9px;
+  --ui-tab-surface:#f4f6f4;
+  --ui-tab-selected-surface:#fff;
+  --ui-tab-selected-shadow:0 1px 4px #263c2b0a;
+  --ui-tab-duration:180ms;
+  --ui-heading-description-gap:6px;
+  --ui-description-content-gap:16px;
+  --ui-field-action-gap:20px;
+  --ui-auth-link-gap:6px;
+
+  --ui-surface:#fff;
+  --ui-cover-image-ratio:16 / 9;
+  --ui-content-image-ratio:5 / 4;
+  --ui-card-stroke:rgb(0 0 0 / 5%);
+  --ui-menu-stroke:rgb(0 0 0 / 5%);
+  --ui-tag-surface:rgb(0 0 0 / 3%);
+  --ui-image-tag-surface:rgb(0 0 0 / 5%);
+  --ui-tag-blur:10px;
+  --ui-nav-height:72px;
+  --ui-nav-optical-offset:3px;
+  --ui-nav-title-size:18px;
+  --ui-nav-glass-fill:rgb(255 255 255 / 70%);
+  --ui-nav-glass-blur:20px;
+  --ui-drawer-inset:20px;
+}
+@media(max-width:800px){:root{--ui-nav-height:64px}}
+
+/* Shared navigation: quiet circular icon, consistent across all entry points. */
+a.back-nav-link,button.back-nav-link{display:inline-flex;align-items:center;justify-content:center;flex:none;gap:0;width:44px;height:44px;min-width:44px;min-height:44px;margin:0;padding:0;color:var(--ui-text-tertiary);font-family:var(--ui-font);line-height:1;border:0;border-radius:50%;background:transparent;position:relative;isolation:isolate;cursor:pointer;box-sizing:border-box;white-space:nowrap;text-decoration:none}
+.back-nav-link::before{content:"";position:absolute;z-index:-1;width:var(--ui-back-circle-size,44px);height:var(--ui-back-circle-size,44px);top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;background:var(--ui-back-surface,#f3f5f4);pointer-events:none}
+@media(max-width:700px){.back-nav-link{--ui-back-circle-size:36px}}
+.back-nav-link svg{display:block;width:20px;height:20px;flex:none;stroke-width:1.75}
+/* Older generated pages retain their label nodes for scripts and accessible names. */
+.back-nav-link>span{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.back-nav-link:focus-visible{outline:2px solid var(--ui-green);outline-offset:4px;border-radius:50%}
+.back-nav-link:disabled{opacity:.4;cursor:default}
+.ui-tag{display:inline-flex;align-items:center;justify-content:center;min-height:26px;padding:3px 9px;line-height:20px;font-size:12px;font-weight:var(--ui-secondary-weight,400);font-family:var(--ui-font);color:var(--ui-text-secondary);background:var(--ui-tag-surface);-webkit-backdrop-filter:blur(var(--ui-tag-blur));backdrop-filter:blur(var(--ui-tag-blur));border-radius:6px}
+.ui-tag--filter{flex:none;gap:6px;min-height:var(--ui-quick-height);padding:6px 12px;border:0;border-radius:6px;font-size:var(--ui-body-size);line-height:24px;font-weight:400;white-space:nowrap;cursor:pointer;-webkit-backdrop-filter:none;backdrop-filter:none;-webkit-tap-highlight-color:transparent}
+.ui-tag--filter[aria-pressed=true]{background:var(--ui-green-light);color:var(--ui-green);font-weight:500}
+.ui-tag--filter>span{font-variant-numeric:tabular-nums;color:var(--ui-text-tertiary)}
+.ui-tag--filter[aria-pressed=true]>span{color:inherit}
+.ui-tag--filter:active{opacity:.65}
+.ui-tag--filter:focus-visible{outline:2px solid var(--ui-focus);outline-offset:-2px}
+.ui-filter-group{display:flex;align-items:center;gap:8px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.ui-filter-group::-webkit-scrollbar{display:none}
+.ui-study-header{display:grid;grid-template-columns:minmax(96px,1fr) minmax(0,2fr) minmax(96px,1fr);align-items:center;height:var(--ui-nav-height);min-height:var(--ui-nav-height);gap:8px}
+.ui-study-header-left{justify-self:start;min-width:0}.ui-study-header-center{font-size:var(--ui-nav-title-size);font-weight:500;justify-self:center;min-width:0;max-width:100%;text-align:center}.ui-study-header-right{justify-self:end;min-width:0}.ui-study-header-center .category-btn{justify-content:center;max-width:100%;padding-inline:0;color:var(--ui-text-primary)}
+.ui-study-header-center .menu{left:50%;transform:translateX(-50%);text-align:left;max-height:65dvh;overflow:auto}.ui-study-header-center .category-btn>span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ui-study-header-right .favourites{font-family:var(--ui-font);font-size:var(--ui-body-size);color:var(--ui-text-tertiary)}
+@media(max-width:700px){.ui-study-header{grid-template-columns:minmax(96px,1fr) minmax(0,2fr) minmax(96px,1fr);gap:4px}}
+/* Menu size variants. Size is opt-in; never upscale reader popovers globally. */
+.ui-menu--sm{--ui-menu-font:14px;--ui-menu-row:42px;--ui-menu-icon:16px;--ui-menu-inset:12px;--ui-menu-gap:8px}
+.ui-menu--lg{--ui-menu-font:16px;--ui-menu-row:48px;--ui-menu-icon:20px;--ui-menu-inset:12px;--ui-menu-gap:12px}
+.ui-menu .ui-icon{width:var(--ui-menu-icon);height:var(--ui-menu-icon);flex:none;stroke-width:1.75}
+/* Links need the same tap reset as buttons; reader's global reset only covered buttons. */
+a.back-nav-link,button.back-nav-link{-webkit-tap-highlight-color:transparent;appearance:none;-webkit-appearance:none}
+a.back-nav-link:is(:hover,:active),button.back-nav-link:is(:hover,:active){background:transparent;box-shadow:none;text-decoration:none}
+/* Same tab primitive, two deliberate sizes. */
+.ui-tabs--sm{--ui-tab-font:14px;--ui-tab-height:36px;--ui-tab-padding:12px}
+.ui-tabs--lg{--ui-tab-font:16px;--ui-tab-height:44px;--ui-tab-padding:16px}
+.ui-tabs{display:inline-flex;align-items:stretch;gap:0;padding:var(--ui-tab-inset);border-radius:var(--ui-radius);background:var(--ui-tab-surface)}
+.ui-tabs button{display:inline-flex;align-items:center;justify-content:center;flex:1 0 auto;gap:8px;min-width:0;min-height:var(--ui-tab-height);padding:6px var(--ui-tab-padding);border:0;border-radius:var(--ui-tab-radius);background:transparent;font-family:var(--ui-font);font-size:var(--ui-tab-font);font-weight:400;line-height:24px;color:var(--ui-text-tertiary);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ui-tabs button[aria-pressed=true]{background:var(--ui-tab-selected-surface);box-shadow:var(--ui-tab-selected-shadow);color:var(--ui-green);font-weight:650}
+.ui-tabs button:is(:hover,:active){color:var(--ui-green)}
+.ui-tabs button:focus-visible{outline:2px solid var(--ui-focus);outline-offset:-2px}
+.ui-tabs button>span{font-variant-numeric:tabular-nums}
+
+/* Align the actual controls, avoiding inline baselines in header grid cells. */
+.ui-study-header-left,.ui-study-header-center,.ui-study-header-right{display:flex;align-items:center;align-self:center}
+.ui-study-header-center{justify-content:center;line-height:24px}
+.ui-study-header-center>.popover-anchor{display:flex;align-items:center;min-width:0;max-width:100%}
+.ui-study-header-center .category-btn{line-height:24px;padding-block:10px}
+
+/* Text may need optical compensation; icon-only back controls stay geometrically centered. */
+.ui-study-header-center,.ui-study-header-right,.list-header>.list-page-title,.topbar .bar>.brand,.topbar .bar>nav{position:relative;top:var(--ui-nav-optical-offset,3px)}
+.ui-study-header-left,.list-header>.back-nav-link{top:0}
+
+/* Account trigger: no persistent pointer/touch focus ring; keyboard remains visible. */
+html:not([data-ui-input="keyboard"]) .preview-account>summary:focus{outline:none;box-shadow:none}
+html[data-ui-input="keyboard"] .preview-account>summary:focus-visible{outline:2px solid rgb(0 0 0 / 25%);outline-offset:2px;border-radius:8px}
+
+body>header.back-nav{display:block!important;max-width:none!important;width:100%!important;height:calc(var(--ui-nav-height) + env(safe-area-inset-top))!important;padding:env(safe-area-inset-top) 20px 0!important;border-bottom:.5px solid var(--ui-divider);box-sizing:border-box}body>header.back-nav>.ui-study-header{width:100%;max-width:1060px;margin:auto}body>header.back-nav .back-nav-link{display:inline-flex;justify-content:center;width:44px;height:44px;min-height:44px;padding:0;gap:0;line-height:1}body>header.back-nav .ui-study-header-center h1{margin:0;font-size:var(--ui-nav-title-size);line-height:24px;font-weight:500;color:var(--ui-text-primary)}body>header.back-nav .back-nav-link:focus-visible{border-radius:50%}.admin-page>.admin-main>.admin-title{display:none}/* Canonical search control: links and actual inputs share the same shell. */
+.ui-search-entry,.ui-search-field{box-sizing:border-box;position:relative;display:flex;align-items:center;gap:10px;min-width:0;min-height:var(--ui-control-height,52px);padding:0 8px 0 16px;border:1px solid var(--ui-border,#c9d5d5);border-radius:var(--ui-radius,12px);background:var(--ui-surface,#fff);color:var(--ui-placeholder,rgb(0 0 0 / 46%));font:400 var(--ui-body-size,16px)/24px var(--ui-font,system-ui);text-decoration:none;box-shadow:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.ui-search-field{flex:1}.ui-search-entry{padding-right:16px;cursor:pointer;user-select:none;-webkit-user-select:none}
+.ui-search-entry>svg,.ui-search-field>svg{display:block;flex:none;width:20px;height:20px;stroke-width:1.75;pointer-events:none}
+.ui-search-field>input{box-sizing:border-box;flex:1;min-width:0;width:100%;height:50px;min-height:0;margin:0;padding:0!important;border:0!important;border-radius:0;background:transparent!important;color:var(--ui-text-primary);font:inherit;line-height:24px;outline:none!important;box-shadow:none!important;appearance:none;-webkit-appearance:none;-webkit-tap-highlight-color:transparent}
+.ui-search-field>input::placeholder{color:var(--ui-placeholder);opacity:1}.ui-search-field>input::-webkit-search-cancel-button{display:none}
+/* One state treatment for the search affordance and the actual input shell. */
+.ui-search-entry:is(:active,:focus-visible),.ui-search-field:is(:active,:focus-within){border-color:var(--ui-green);box-shadow:0 0 0 3px var(--ui-focus-halo);background:var(--ui-surface,#fff);color:var(--ui-placeholder);outline:none}
+.ui-search-entry:focus:not(:focus-visible){outline:none}
+.ui-search-field>.ui-search-clear{box-sizing:border-box;position:static!important;transform:none;display:grid;place-items:center;flex:none;width:36px!important;min-width:36px!important;max-width:36px!important;height:36px!important;min-height:36px!important;margin:0!important;padding:0!important;border:0!important;border-radius:50%;appearance:none;-webkit-appearance:none;background:transparent!important;color:var(--ui-text-quaternary);box-shadow:none!important;cursor:pointer;line-height:1;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.ui-search-field>.ui-search-clear::before{display:none;content:none}.ui-search-field>.ui-search-clear svg{display:block;position:static;width:16px;height:16px;stroke:currentColor;stroke-width:1.75;pointer-events:none}
+.ui-search-field>.ui-search-clear[hidden]{display:none!important}.ui-search-field>.ui-search-clear:active{background:var(--ui-green-light)!important;color:var(--ui-green)}
+.ui-search-field>.ui-search-clear:focus-visible{outline:2px solid var(--ui-focus);outline-offset:0}
+@media(hover:hover){.ui-search-entry:hover{background:var(--ui-surface,#fff)}.ui-search-field>.ui-search-clear:hover{color:var(--ui-text-secondary)}}
+</style><link rel="stylesheet" href="/learning/ui/account-topic-banner.css?v=20261024-carousel-scenes-v2"><script type="module" src="/learning/ui/account-topic-banner.js?v=20261024-carousel-scenes-v2"></script><link rel="stylesheet" href="/learning/ui/account-interactions.css?v=20261024-native-refresh"><meta name="format-detection" content="telephone=no,email=no,address=no"><style data-hhx-stable-typography>.account-page.account-pending #account-nav-title{visibility:hidden}.account-page header.back-nav #account-nav-title{font-size:18px!important;line-height:24px!important;margin:0!important}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}.saved-list{-webkit-text-size-adjust:100%;text-size-adjust:100%}.account-page #main .intro h1{font-size:24px!important;line-height:1.4}.account-page #form-title{font-size:22px!important;line-height:1.4}.account-page .mode-switch button,.account-page #auth-form input{font-size:16px!important;line-height:24px}</style><style data-account-startup-layout>@media(max-width:599px){body.account-page #main{display:grid;grid-template-columns:minmax(0,1fr)}body.account-page #main>.panel{order:0}body.account-page #main>.intro{order:1;margin-top:24px}}</style></head>
+<body class="account-page account-pending"><script>try{if(sessionStorage.getItem("hhxAccountLayout")==="auth")document.body.classList.add("auth-pending")}catch{}</script>
+<header class="header back-nav"><div class="ui-study-header"><div class="ui-study-header-left"><a id="account-back" class="account-home-back back-nav-link" href="/learning/#home" aria-label="返回"><svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg><span id="account-back-label">返回</span></a></div><div class="ui-study-header-center"><h1 id="account-nav-title">我的账号</h1></div><div class="ui-study-header-right"></div></div></header>
+<main id="main">
+  <section class="intro account-topic-banner" id="account-topic-banner" aria-label="探索学习专题" aria-roledescription="轮播"><div class="account-topic-track"><a class="account-topic-slide" data-topic="words" href="/learning/#words" aria-label="看图学单词，看图认识方块，听发音、读例句。1245 张单词卡 · 10 大主题，1/3"><picture class="account-topic-picture"><source media="(min-width:720px) and (orientation:landscape)" srcset="/learning/banner-art/words-complete-portrait-v2.webp" width="1200" height="1500"><source media="(min-width:600px)" srcset="/learning/banner-art/words-complete-mobile-v3.webp" width="1600" height="800"><img src="/learning/banner-art/words-complete-mobile-v3.webp" width="1200" height="600" alt="" decoding="async" ></picture></a><a class="account-topic-slide" data-topic="reading" href="/learning/#readings" aria-label="游戏小百科，发现游戏小知识，学会实用小技巧，也读懂其中的英语。60 篇小知识 · 三档难度，2/3"><picture class="account-topic-picture"><source media="(min-width:720px) and (orientation:landscape)" srcset="/learning/banner-art/reading-complete-portrait-v5.webp" width="1200" height="1500"><source media="(min-width:600px)" srcset="/learning/banner-art/reading-complete-wide-v5.webp" width="1600" height="800"><img src="/learning/banner-art/reading-complete-mobile-v5.webp" width="1200" height="600" alt="" decoding="async" loading="lazy"></picture></a><a class="account-topic-slide" data-topic="dialogue" href="/learning/#scenes" aria-label="游戏常用对话，和队友打招呼，一起用英语冒险。200 句常用语 · 10 个场景，3/3"><picture class="account-topic-picture"><source media="(min-width:720px) and (orientation:landscape)" srcset="/learning/banner-art/dialogue-complete-portrait-v2.webp" width="1200" height="1500"><source media="(min-width:600px)" srcset="/learning/banner-art/dialogue-complete-mobile-v3.webp" width="1600" height="800"><img src="/learning/banner-art/dialogue-complete-mobile-v3.webp" width="1200" height="600" alt="" decoding="async" loading="lazy"></picture></a></div><div class="account-topic-controls"><div class="account-topic-dots" role="group" aria-label="选择专题"><button type="button" data-slide="0" aria-label="查看看图学单词" aria-pressed="true"><span></span></button><button type="button" data-slide="1" aria-label="查看游戏小百科" aria-pressed="false"><span></span></button><button type="button" data-slide="2" aria-label="查看游戏常用对话" aria-pressed="false"><span></span></button></div></div></section>
+  <section class="panel" aria-label="账号与兑换">
+    <div id="loading" class="account-skeleton" role="status" aria-label="正在加载账号">
+      <div class="auth-loading" aria-hidden="true">
+      <div aria-hidden="true" class="account-skeleton-block account-skeleton-tabs"></div>
+      <div aria-hidden="true" class="account-skeleton-block account-skeleton-title"></div>
+      <div aria-hidden="true" class="account-skeleton-block account-skeleton-input"></div>
+      <div aria-hidden="true" class="account-skeleton-block account-skeleton-input"></div>
+      <div aria-hidden="true" class="account-skeleton-block account-skeleton-input"></div>
+      <div aria-hidden="true" class="account-skeleton-block account-skeleton-input"></div>
+      <div aria-hidden="true" class="account-skeleton-block account-skeleton-button"></div>
+      <div aria-hidden="true" class="account-skeleton-actions"><span class="account-skeleton-block"></span><span class="account-skeleton-block"></span></div>
+      </div>
+      <div class="member-loading" aria-hidden="true"><div class="account-skeleton-block account-skeleton-user"></div><div class="account-skeleton-block account-skeleton-title"></div><div class="account-skeleton-block account-skeleton-line"></div><div class="account-skeleton-block account-skeleton-label"></div><div class="account-skeleton-block account-skeleton-input"></div><div class="account-skeleton-block account-skeleton-button"></div><div class="account-skeleton-block account-skeleton-link"></div></div>
+    </div>
+    <div id="auth" data-mode="login" hidden>
+      <div class="mode-switch segmented-tabs" aria-label="账号操作"><span class="auth-tab-indicator tab-indicator" aria-hidden="true"></span><button type="button" data-mode="login" aria-pressed="true">登录</button><button type="button" data-mode="register" aria-pressed="false">注册账号</button></div>
+      <div class="auth-heading-row"><h2 id="form-title">欢迎回来</h2><span id="registration-contact" class="registration-contact-copy" hidden>遇到问题请<button type="button" class="text-button" data-account-help="contact">联系我们</button></span></div>
+      <form id="auth-form" novalidate>
+        <label for="email">邮箱</label><input id="email" name="email" type="email" autocomplete="username" maxlength="254" required aria-describedby="auth-message" placeholder="邮箱地址">
+        
+        <label for="password" id="password-label">密码</label><input id="password" name="password" type="password" autocomplete="current-password" minlength="10" maxlength="128" required aria-describedby="auth-message" placeholder="密码（至少 10 个字符）">
+        
+        <div id="confirm-password-field" hidden><label for="confirm-password">确认新密码</label><input id="confirm-password" type="password" autocomplete="new-password" minlength="10" maxlength="128" placeholder="再次输入新密码" aria-describedby="auth-message"></div>
+        <div id="register-code-field" hidden><label for="register-code">兑换码（购买平台订单编号）</label><div class="registration-code-row"><input id="register-code" name="registrationCode" autocomplete="off" maxlength="100" placeholder="购买平台订单编号或兑换码" aria-label="兑换码或购买平台订单编号"><button type="button" class="text-button" data-account-help="example">查看示例</button></div></div>
+        <div id="email-code-input" hidden><label for="email-code">邮箱验证码</label><div class="email-code-row"><input id="email-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="6 位验证码"><button type="button" id="send-code" class="secondary">获取验证码</button></div></div>
+        <p id="auth-message" class="message" role="status"></p><button class="primary" id="auth-submit">登录</button>
+      </form>
+      <div class="auth-bottom-actions"><button type="button" class="text-button" id="recover-mode">忘记密码？</button><a id="register-purchase" hidden href="https://m.tb.cn/h.8yMgi5B?tk=L2MDTKgEdrM" target="_blank" rel="noopener noreferrer">没有兑换码？去购买</a></div>
+    </div>
+    <div id="member" hidden>
+      <div class="member-header"><div><div class="member-heading"><span class="member-title">我的账号</span><span id="member-access-badge" class="badge" hidden>全部专题已开通</span></div><p id="member-email"></p></div><button type="button" id="logout" class="text-button">退出登录</button></div>
+      <div id="verify-notice" class="notice" hidden><h2>验证邮箱，方便找回密码</h2><p>你的旧账号还未验证邮箱。完成后，忘记密码时即可通过邮件找回。</p><button type="button" id="send-verify" class="secondary">发送邮箱验证码</button><form id="verify-form"><label for="verify-code">邮箱验证码</label><input id="verify-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required placeholder="6 位验证码"><button class="primary">验证邮箱</button></form><p id="verify-status" class="message" role="status"></p></div>
+      <div id="admin-home" hidden><span class="eyebrow">管理员</span><h2>管理工作台</h2><p class="panel-description">管理订单和兑换码，处理激活与退款权限。</p><a class="primary" href="/admin/">管理兑换码 →</a><a class="secondary admin-learn-link" href="/admin/reports/">数据报表 →</a><a class="secondary admin-learn-link" href="/admin/community/">学习交流群 →</a><a class="secondary admin-learn-link" href="/learning/">进入学习 →</a></div><div id="unlocked" hidden><h2>学习内容已准备好。</h2><p class="muted">登录同一账号，即可在其他设备使用已兑换的内容。</p><a class="primary" href="/learning/">进入学习 →</a></div>
+      <div id="redeem-section"><h2 id="redeem-title">开通全部学习内容</h2><p id="redeem-help" class="panel-description"><span class="redeem-help-main">填写购买平台订单编号或兑换码，</span><span class="redeem-help-contact">遇到问题请<button type="button" class="text-button inline-help" data-account-help="contact">联系我们</button></span></p><form id="redeem-form"><label for="code">订单编号 / 兑换码</label><div class="registration-code-row"><input id="code" name="code" autocomplete="off" required placeholder="购买平台订单编号或兑换码" aria-describedby="redeem-help redeem-message"><button type="button" class="text-button" data-account-help="example">查看示例</button></div><p id="redeem-message" class="message" role="status"></p><button class="primary" id="redeem-submit">兑换并开通</button></form><div class="auth-bottom-actions redeem-bottom-actions"><a class="redeem-purchase" href="https://m.tb.cn/h.8yMgi5B?tk=L2MDTKgEdrM" target="_blank" rel="noopener noreferrer">没有兑换码？去购买</a></div></div>
+      <a id="admin-link" href="/admin/" class="text-button" hidden>管理兑换码 →</a>
+    </div>
+  </section>
+</main>
+<footer hidden><a class="purchase-link" href="https://m.tb.cn/h.8yMgi5B?tk=L2MDTKgEdrM" target="_blank" rel="noopener noreferrer">没有兑换码？去购买</a></footer>
+<dialog id="account-help-dialog" class="action-dialog account-help-dialog" aria-labelledby="account-help-title"><form method="dialog"><h2 id="account-help-title"></h2><div id="order-example" hidden><p>在下单平台的订单详情中，复制红框所示的订单编号。以下仅为示例，请填写自己的完整订单编号。</p><div class="order-example-card"><div class="example-order-number"><span>订单编号</span><strong>5127523238017015817</strong></div><figure class="order-example-figure"><img src="/account/examples/order-number-example-highlighted-v2.png" alt="订单编号示例，第一行已用红框标记" width="1566" height="1005"></figure></div></div><div id="account-contact" hidden><p>添加微信，提供购买平台和订单编号，我会帮你核对激活问题。</p><div class="contact-wechat"><span>微信号</span><strong id="contact-wechat-id">kerh4-</strong></div><p id="contact-message" class="message" role="status"></p></div><div class="dialog-actions"><button class="secondary" value="close">关闭</button><button id="copy-wechat" class="primary" type="button" hidden>复制微信号</button></div></form></dialog><script type="module" src="/account/account-viewport-check.js?v=20261014"></script><script type="module" src="/account/account-orientation.js?v=20261014-safe-area-scale"></script><script>(()=>{const title=document.getElementById('account-nav-title');if(title&&document.getElementById('account-back')){const sync=()=>{const auth=document.getElementById('auth');title.textContent=document.getElementById('account-back').getAttribute('aria-label')==='返回登录'?'找回密码':auth&&!auth.hidden?'登录 / 注册':document.body.classList.contains('admin-account')?'管理工作台':'我的账号'};sync();new MutationObserver(sync).observe(document.body,{subtree:true,attributes:true,attributeFilter:['hidden','class','aria-label']})}for(const input of document.querySelectorAll('#order-number,input[type="search"]')){if(input.closest('.ui-search-field'))continue;const wrap=document.createElement('div');wrap.className='ui-search-field';input.before(wrap);wrap.innerHTML='<svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>';wrap.append(input);if(input.id==='order-number'){input.placeholder='搜索订单号或兑换码';input.setAttribute('enterkeyhint','search');input.setAttribute('autocomplete','off');input.spellcheck=false}const clear=document.createElement('button');clear.type='button';clear.className='ui-search-clear';clear.setAttribute('aria-label','清空搜索');clear.innerHTML="<svg class=\"ui-icon\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg>";wrap.append(clear);const sync=()=>clear.hidden=!input.value;input.addEventListener('input',sync);sync();clear.addEventListener('click',()=>{input.value='';input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}));if(input.id==='order-number')input.form?.requestSubmit();input.focus();sync()})}})();</script></body></html>

@@ -1,0 +1,6 @@
+.preview-recovery--error{max-width:480px;margin:12vh auto;padding:24px;text-align:center}
+.preview-recovery-icon{display:flex;align-items:center;justify-content:center;width:64px;height:64px;margin:0 auto 20px;border-radius:50%;background:var(--ui-tag-surface,rgb(0 0 0 / 3%));color:var(--ui-text-tertiary,#767676)}
+.preview-recovery-icon>.ui-icon{display:block;width:32px;height:32px;stroke-width:1.5}
+.preview-recovery-actions{display:flex;flex-direction:column;align-items:center;gap:8px}
+.preview-recovery-actions>button{min-width:144px;justify-content:center}
+.preview-recovery-actions>a{justify-content:center;text-align:center}

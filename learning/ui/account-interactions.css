@@ -1,0 +1,3 @@
+/* Allow the browser's vertical pull-to-refresh; horizontal carousel stays scoped. */
+html:has(body.account-page){overscroll-behavior-y:auto}
+body.account-page{overscroll-behavior-y:auto;overflow-anchor:none}

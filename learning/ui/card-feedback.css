@@ -1,0 +1,5 @@
+/* Shared press feedback: no layout shift or persistent touch hover. */
+:is(a.topic,a.list-card,a.continue,a.word-result-card,button.category-drawer-card){-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform 140ms ease-out,opacity 140ms ease-out;transform-origin:center}
+:is(a.topic,a.list-card,a.continue,a.word-result-card,button.category-drawer-card)[data-ui-pressed]{transform:scale(.985);opacity:.9}
+button.category-drawer-card[data-ui-pressed]{transform:scale(.975)}
+@media(prefers-reduced-motion:reduce){:is(a.topic,a.list-card,a.continue,a.word-result-card,button.category-drawer-card){transition:none}:is(a.topic,a.list-card,a.continue,a.word-result-card,button.category-drawer-card)[data-ui-pressed]{transform:none}}

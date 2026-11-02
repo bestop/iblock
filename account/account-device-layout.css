@@ -1,0 +1,425 @@
+/* Device direction must not follow keyboard viewport height. */
+@import "./ui/tokens.css";
+:root {
+  font-family:var(--ui-font);
+  font-size:var(--ui-body-size);
+  color:var(--ui-text);
+  background:#fff;
+  font-synthesis:none;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:#fff}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+a,button,input,select,textarea{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button{cursor:pointer}
+button:disabled{cursor:wait;opacity:.65}
+:focus-visible{outline:3px solid var(--ui-focus);outline-offset:4px}
+button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none;box-shadow:none}
+h1,h2{color:var(--ui-text-primary)}
+h1{font-size:var(--ui-page-title-size);font-weight:700;line-height:1.5;letter-spacing:-.02em;margin:12px 0}
+h2{font-size:var(--ui-section-title-size);font-weight:650;line-height:1.4;margin:18px 0 8px}
+p{font-size:var(--ui-body-size);line-height:1.6;text-wrap:wrap}
+h1,h2{text-wrap:wrap}
+/* Natural wrapping across account and admin copy; long identifiers may break only when needed. */
+p,label,.panel-description,.message,.fine,.muted{white-space:normal;text-wrap:wrap;word-break:normal;overflow-wrap:anywhere}
+#order-result{min-width:0;width:100%}
+#order-result:not(:empty){margin-top:16px}
+.eyebrow{font-size:var(--ui-small-size);font-weight:650;letter-spacing:.06em;color:var(--ui-text-secondary)}
+.muted,.fine{color:var(--ui-muted)}
+.muted{font-size:var(--ui-body-size);line-height:1.7;margin:8px 0 24px}
+.fine{font-size:var(--ui-small-size);line-height:1.7;margin-top:18px}
+label{display:block;font-size:var(--ui-body-size);font-weight:400;color:var(--ui-text-secondary);margin:18px 0 8px}
+
+/* Shared fields: white surface, 16px type, green focus, consistent errors. */
+input:not([type=checkbox]):not([type=radio]),select,textarea {
+  width:100%;min-width:0;min-height:var(--ui-control-height);
+  border:1px solid var(--ui-border);border-radius:var(--ui-radius);
+  padding:12px 14px;background:#fff;color:var(--ui-text);
+  font-size:var(--ui-body-size);outline:none;outline-offset:0;box-shadow:none;
+}
+input:not([type=checkbox]):not([type=radio]),select{height:var(--ui-control-height)}
+textarea{resize:vertical;min-height:150px;line-height:1.7}
+input::placeholder,textarea::placeholder{color:var(--ui-placeholder);opacity:1}
+input:not([type=checkbox]):not([type=radio]):focus,select:focus,textarea:focus{border-color:var(--ui-green);box-shadow:0 0 0 3px var(--ui-focus-halo);outline:none}
+input:not([type=checkbox]):not([type=radio])[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true]{border-color:var(--ui-error)}
+input:not([type=checkbox]):not([type=radio])[aria-invalid=true]:focus,select[aria-invalid=true]:focus,textarea[aria-invalid=true]:focus{box-shadow:0 0 0 3px var(--ui-error-halo)}
+
+/* Shared buttons. Compact actions deliberately use the same palette and radius. */
+.primary,.secondary {
+  display:flex;align-items:center;justify-content:center;width:100%;
+  min-height:var(--ui-control-height);border:0;border-radius:var(--ui-radius);
+  padding:12px 16px;font-size:var(--ui-body-size);font-weight:650;text-align:center;
+}
+.primary{background:var(--ui-green);color:#fff}
+.primary:hover:not(:disabled){background:var(--ui-green-hover)}
+.secondary{background:var(--ui-green-light);color:var(--ui-green)}
+.text-button{display:inline-block;border:0;background:transparent;color:var(--ui-green);font-size:var(--ui-small-size);padding:8px 0;margin-top:12px}
+.text-button:active,a:active{background:transparent}
+.message{font-size:var(--ui-small-size);line-height:1.6;color:var(--ui-error);min-height:20px;margin:10px 0}
+.message:empty{display:none}
+.message.success{color:var(--ui-green)}
+.panel{background:#fff;border:1px solid var(--ui-divider);border-radius:24px;padding:32px}
+.badge{display:inline-block;font-size:var(--ui-small-size);background:var(--ui-green-light);color:var(--ui-green);padding:7px 11px;border-radius:8px}
+
+/* One segmented-tab component for both account and administration. */
+.segmented-tabs {
+  --tab-count:2;--active-tab:0;
+  display:flex;position:relative;isolation:isolate;gap:0;
+  height:var(--ui-control-height);min-height:var(--ui-control-height);
+  padding:var(--ui-tab-inset);border-radius:var(--ui-radius);background:#f4f6f4;
+}
+.tab-indicator {
+  position:absolute;z-index:0;left:var(--ui-tab-inset);top:var(--ui-tab-inset);
+  width:calc((100% - 2*var(--ui-tab-inset))/var(--tab-count));
+  height:calc(var(--ui-control-height) - 2*var(--ui-tab-inset));
+  border-radius:var(--ui-tab-radius);background:#fff;box-shadow:0 1px 4px #263c2b0a;
+  transform:translateX(calc(var(--active-tab)*100%));
+  transition:transform var(--ui-tab-duration) ease-out;pointer-events:none;
+}
+.segmented-tabs button {
+  position:relative;z-index:1;flex:1;min-width:0;
+  height:calc(var(--ui-control-height) - 2*var(--ui-tab-inset));min-height:var(--ui-compact-height);
+  border:0;border-radius:var(--ui-tab-radius);background:transparent;
+  font-size:var(--ui-body-size);font-weight:400;color:var(--ui-muted);padding:8px 2px;white-space:nowrap;
+}
+.segmented-tabs button:is([aria-pressed=true],[aria-selected=true]){font-weight:650;color:var(--ui-green);background:transparent;box-shadow:none}
+.segmented-tabs button:hover,.segmented-tabs button:active{color:var(--ui-green);background:transparent}
+.mode-switch[data-active=register]{--active-tab:1}
+.admin-tabs{--tab-count:4;margin-top:24px}
+@media(prefers-reduced-motion:reduce){.tab-indicator{transition:none}}
+
+/* Account layout and illustration. */
+.header{max-width:1060px;margin:auto;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:750;color:var(--ui-text-primary)}
+.brand img{width:36px;height:36px}
+.brand span{font-size:var(--ui-small-size);font-weight:500;color:var(--ui-muted);margin-left:8px}
+.header>a:last-child{font-size:var(--ui-small-size);color:var(--ui-green)}
+.account-page #main{display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:stretch;max-width:960px;margin:42px auto 32px;padding:0;border:1px solid #e8ece8;border-radius:20px;overflow:hidden}
+.account-page .intro{display:flex;flex-direction:column;justify-content:center;padding:38px 28px 24px;background:#fcfbf4;text-align:center;min-width:0}
+.account-page h1{color:var(--ui-text-primary)}
+.account-page .intro p{color:var(--ui-text-tertiary);font-size:var(--ui-body-size);margin:4px 0}
+.account-art{display:block;width:100%;height:auto;max-width:460px;align-self:center;margin:12px 0}
+.account-page #main>.panel{border:0;border-radius:0;padding:42px 40px;min-width:0}
+.account-page h2{margin:26px 0 8px;color:var(--ui-text-primary)}
+.account-page .muted{font-size:var(--ui-body-size);margin:0 0 24px}
+.account-page label{font-weight:400;margin:16px 0 7px}
+#auth-form>label,#email-code-input>label,#register-code-field>label,#confirm-password-field>label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+#auth-form{margin-top:20px}
+#auth-form>input~input,#email-code-input,#register-code-field,#confirm-password-field{margin-top:14px}
+#auth-submit,#redeem-submit{margin-top:var(--ui-field-action-gap)}
+#auth[data-mode=recover] h2{margin-top:0}
+.email-code-row{position:relative;display:block}
+.email-code-row input{padding-right:132px}
+.email-code-row .secondary{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:auto;white-space:nowrap;min-height:var(--ui-compact-height);height:var(--ui-compact-height);padding:8px 10px;background:transparent;border-radius:8px}
+#recover-mode{display:block;width:fit-content;min-height:var(--ui-compact-height);margin:0 auto;text-align:center}
+.member-header{display:flex;align-items:center;justify-content:space-between;gap:12px;border:0;background:#f4f6f4;border-radius:var(--ui-radius);padding:16px;margin-bottom:24px}
+.member-header p{font-size:var(--ui-body-size);color:var(--ui-text-secondary);overflow-wrap:anywhere;margin:0;line-height:1.5}
+.member-header>div{min-width:0;display:flex;flex-direction:column;gap:4px}
+.member-heading{display:flex;align-items:center;flex-wrap:wrap;gap:6px 8px}
+.member-title{font-size:18px;font-weight:600;line-height:1.5;color:var(--ui-text-primary)}
+.member-heading .badge{font-size:12px;font-weight:400;line-height:20px;white-space:nowrap;padding:1px 6px;border-radius:4px}
+.member-header button{white-space:nowrap;margin:0;flex-shrink:0}
+#unlocked{margin-bottom:28px}
+.notice{background:#f6f8f1;border:1px solid #e4e9db;border-radius:var(--ui-radius);padding:20px;margin-bottom:24px}
+.notice h2{font-size:var(--ui-subtitle-size);margin-top:0}
+.notice p{font-size:var(--ui-body-size)}
+#verify-form .primary{margin-top:16px}
+footer{text-align:center;font-size:var(--ui-small-size);color:var(--ui-muted);padding:0 24px 28px;background:#fff}
+footer a{text-decoration:underline;text-underline-offset:3px}
+
+/* Administrative layout. */
+.admin-main{display:block;max-width:1100px;margin:32px auto 60px;padding:0 24px}
+.admin-main .panel{margin-top:24px;border:0;border-radius:0;padding:0}
+.admin-main .panel>h2:first-child{margin:0}
+.panel-description{font-size:var(--ui-body-size);font-weight:400;line-height:1.6;color:var(--ui-muted);margin:var(--ui-heading-description-gap) 0 var(--ui-description-content-gap)}
+.admin-main .panel>h2+form{margin-top:var(--ui-description-content-gap)}
+.admin-main .panel form>label:first-child{margin-top:0}
+.admin-main .panel-description+.table-wrap{margin-top:0}
+.admin-controls{display:grid;grid-template-columns:1fr 150px 160px;gap:16px;align-items:end}
+.admin-controls label{margin-top:0}
+.admin-main #order-search .primary,.admin-main #import-submit{margin-top:var(--ui-field-action-gap)}
+.admin-title{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.admin-title h1{margin:0}
+.admin-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.admin-actions .secondary{width:auto;min-height:var(--ui-quick-height);white-space:nowrap;font-size:var(--ui-small-size);padding:8px 12px}
+.table-wrap{overflow:auto;margin-top:24px}
+table{border-collapse:collapse;width:100%;font-size:var(--ui-body-size);font-variant-numeric:tabular-nums;text-align:left;white-space:nowrap}
+th,td{padding:14px 12px;border-bottom:1px solid var(--ui-divider)}
+th{color:var(--ui-muted);font-weight:600}
+td button,.code-action{border:0;background:var(--ui-green-light);color:var(--ui-green);border-radius:var(--ui-radius);font-size:var(--ui-body-size);min-height:var(--ui-compact-height);padding:8px 12px}
+.codes-output{white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto;font-size:var(--ui-small-size);background:#f2f6f4;padding:16px;border-radius:8px}
+
+@media(max-width:800px){
+  .brand span{display:none}.header{padding:12px 20px}
+  .panel{padding:24px;border-radius:18px}
+  .account-page #main{max-width:520px;margin:8px auto 28px;grid-template-columns:1fr;border:0;border-radius:0;overflow:visible;padding:0 20px}
+  .account-page .intro{flex-direction:row;flex-wrap:wrap;text-align:left;align-items:center;justify-content:space-between;padding:20px;border-radius:16px;gap:8px}
+  .account-intro-copy{flex:1;min-width:0}
+  .account-page .intro .account-intro-meta{line-height:1.6;overflow:visible}
+  .account-page .intro:has(.account-intro-meta){position:relative;padding-bottom:58px}
+  .account-intro-copy .account-intro-meta{position:absolute;left:20px;right:20px;bottom:16px;margin:0;width:auto}
+  .account-page h1{font-size:24px;margin:8px 0}
+  .account-art{width:120px;margin:0;flex-shrink:0;transform:scale(1.4);transform-origin:center}
+  .account-page #main>.panel{padding:22px 4px 8px}
+  .account-page h2{font-size:22px}
+  .admin-main{max-width:520px;padding:0 20px;margin-bottom:36px}
+  .admin-controls{grid-template-columns:1fr 100px}.admin-controls button{grid-column:1/-1}
+}
+@media(max-width:600px){.admin-title{gap:12px}.admin-title h1{font-size:24px}.admin-actions{gap:6px}.admin-actions .secondary{padding:8px 10px}}
+@media(max-width:360px){.account-art{width:88px}.account-page h1{font-size:21px}.account-page .intro{padding:16px}.admin-title h1{font-size:22px}.admin-actions .secondary{padding:8px 6px}}
+@media(max-width:360px){.admin-title{flex-wrap:wrap}.admin-title h1{white-space:nowrap}.admin-actions{margin-left:auto}}
+
+/* Redemption records use single, consistent 1px row dividers. */
+#panel-records table{--record-divider-width:1px;border-collapse:separate;border-spacing:0}
+#panel-records th,#panel-records td{border:0;box-shadow:inset 0 calc(0px - var(--record-divider-width)) 0 var(--ui-divider)}
+
+.purchase-link{display:inline-flex;align-items:center;justify-content:center;min-height:var(--ui-compact-height);padding:8px 16px;border-radius:var(--ui-radius)}
+
+@media(min-resolution:2dppx){#panel-records table{--record-divider-width:.5px}}
+@media(min-resolution:3dppx){#panel-records table{--record-divider-width:.333333px}}
+
+/* Shared action confirmation surface; native dialog supplies modal focus and Escape behavior. */
+.action-dialog{width:calc(100% - 40px);max-width:420px;max-height:calc(100dvh - 48px);overflow:auto;border:0;border-radius:20px;padding:28px;background:#fff;color:var(--ui-text);box-shadow:0 16px 48px rgb(0 0 0 / 16%)}
+.action-dialog::backdrop{background:rgb(0 0 0 / 36%)}
+.action-dialog h2{font-size:var(--ui-section-title-size);margin:0 0 12px}
+.action-dialog p{margin:0 0 16px;color:var(--ui-muted)}
+.action-dialog .action-code{padding:12px 14px;background:#f4f6f4;border-radius:var(--ui-radius);color:var(--ui-text);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.dialog-actions{display:flex;gap:12px;margin-top:24px}
+.dialog-actions button{flex:1;min-width:0}
+
+.action-dialog .secondary:focus-visible{outline:none;box-shadow:none}
+
+button.is-loading{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:wait}
+button.is-loading::before{content:"";width:16px;height:16px;flex:0 0 16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:action-spin .7s linear infinite}
+@keyframes action-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){button.is-loading::before{animation:none}}
+
+/* Continuous records loading, with a retry button as a fallback. */
+.records-loader{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:20px}
+.records-loader span{font-size:var(--ui-small-size);color:var(--ui-muted);font-variant-numeric:tabular-nums}
+.records-loader .secondary{width:auto;min-height:var(--ui-compact-height)}
+.admin-account #main{display:block;max-width:640px;border:0;margin-top:24px}
+.admin-account #main>.panel{padding:24px}
+.admin-account #admin-home h2{margin-top:12px}
+.admin-learn-link{margin-top:12px}
+@media(max-width:800px){.admin-account #main>.panel{padding:20px 4px}}
+
+.redeem-help-actions{display:flex;gap:24px;margin:0 0 16px}
+.redeem-help-actions .text-button{margin:0;padding:4px 0}
+.code-help{margin:8px 0 0;line-height:1.6}
+.inline-help{margin:0;padding:0 0 0 8px}
+.order-example-card{padding:16px;border-radius:var(--ui-radius);background:#f4f6f4;margin-bottom:16px}
+.order-example-card .example-order-number{display:flex;flex-direction:column;gap:6px;margin:0 0 8px}
+.order-example-card .fine{display:block;margin:0;line-height:1.6}
+.example-order-number strong{font-size:var(--ui-body-size);font-weight:650;overflow-wrap:anywhere;color:var(--ui-text-primary)}
+.contact-wechat{display:flex;flex-direction:row;align-items:center;gap:12px;background:#f4f6f4;padding:16px;border-radius:var(--ui-radius);margin:16px 0}
+.contact-wechat strong{overflow-wrap:anywhere;font-size:var(--ui-subtitle-size);font-weight:650;color:var(--ui-text-primary)}
+.contact-wechat>span{font-size:var(--ui-small-size);color:var(--ui-muted)}
+#redeem-help .inline-help{font-size:inherit;line-height:inherit}
+
+
+.registration-code-row{position:relative}
+.registration-code-row input{padding-right:96px}
+.registration-code-row .text-button{position:absolute;right:8px;top:50%;transform:translateY(-50%);margin:0;padding:8px;min-height:var(--ui-compact-height);display:flex;align-items:center;white-space:nowrap}
+
+.auth-bottom-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:var(--ui-auth-link-gap)}
+#auth #recover-mode{margin:0;text-align:left}
+#register-purchase{text-decoration:underline;text-underline-offset:3px;font-size:var(--ui-small-size);color:var(--ui-muted);min-height:var(--ui-compact-height);display:flex;align-items:center;text-align:right}
+
+.account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden])))>footer{display:none}
+
+.redeem-bottom-actions{justify-content:center}
+.redeem-purchase{display:flex;align-items:center;min-height:var(--ui-compact-height);font-size:var(--ui-small-size);color:var(--ui-muted);text-decoration:underline;text-underline-offset:3px}
+
+/* Authentication on tablets: shared outer gutters and a fixed header gap. */
+@media(min-width:600px){
+  .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))){--account-gutter:clamp(24px,4vw,40px);--account-header-gap:16px}
+  .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden])))>.header{width:calc(100% - 2 * var(--account-gutter));max-width:960px;padding:16px 0;margin-inline:auto}
+  .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main{width:calc(100% - 2 * var(--account-gutter));max-width:960px;margin:var(--account-header-gap) auto 32px;padding:0}
+  .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main>.panel{padding:32px}
+}
+@media(min-width:600px) and (max-width:1199px){
+  html[data-account-orientation="portrait"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden])))>.header,html[data-account-orientation="portrait"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main{max-width:640px}
+  html[data-account-orientation="portrait"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main{grid-template-columns:1fr;border:0;border-radius:0;overflow:visible}
+  html[data-account-orientation="portrait"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) .intro{position:relative;display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:20px;padding:28px;border-radius:20px;text-align:left}
+  html[data-account-orientation="portrait"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) .account-intro-copy{flex:1;min-width:0}
+  html[data-account-orientation="portrait"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) .account-intro-meta{position:static;width:auto;margin:12px 0 0;line-height:1.6}
+  html[data-account-orientation="portrait"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) .account-art{width:176px;max-width:36%;margin:0;flex-shrink:0;transform:none}
+  html[data-account-orientation="portrait"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) h1{font-size:28px;line-height:1.4;margin:12px 0}
+  html[data-account-orientation="portrait"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main>.panel{padding:28px 0 8px}
+}
+@media(min-width:801px) and (max-height:900px){
+  html[data-account-orientation="landscape"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))){--account-header-gap:12px}
+  html[data-account-orientation="landscape"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) .intro{padding:28px 24px}
+  html[data-account-orientation="landscape"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main>.panel{padding:28px 32px}
+  html[data-account-orientation="landscape"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) .account-art{max-width:340px;margin:8px 0}
+}
+
+/* Signed-in members only need their account and redemption form. */
+.account-page.member-account .intro{display:none}
+.account-page.member-account #main{grid-template-columns:minmax(0,1fr);max-width:520px}
+
+.redeem-help-contact{white-space:nowrap}
+@media(max-width:700px){.redeem-help-main,.redeem-help-contact{display:block}.redeem-help-contact{margin-top:4px}}
+
+@media(min-width:600px){
+  .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) .intro h1{font-size:clamp(20px,2vw,24px);line-height:1.4;white-space:nowrap;margin:12px 0}
+  .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) .intro h1 br{display:none}
+}
+
+/* Before account verification, render only a stable loading panel. */
+.account-page.account-pending>footer{display:none!important}
+
+
+/* Screen-centered card, with equal top/bottom reservations for the header. */
+@media(min-width:801px){
+  html[data-account-orientation="landscape"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))){--account-safe-space:calc(92px + env(safe-area-inset-top));position:relative;display:flex;flex-direction:column;min-height:100vh;min-height:100svh;padding-block:var(--account-safe-space);gap:0}
+  html[data-account-orientation="landscape"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden])))>.header{position:fixed;top:env(safe-area-inset-top);left:0;right:0;margin:0 auto}
+  html[data-account-orientation="landscape"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main{flex:none;margin:auto}
+}
+@media(min-width:1200px){
+  .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))){--account-safe-space:calc(92px + env(safe-area-inset-top));position:relative;display:flex;flex-direction:column;min-height:100vh;min-height:100svh;padding-block:var(--account-safe-space);gap:0}
+  .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden])))>.header{position:fixed;top:env(safe-area-inset-top);left:0;right:0;margin:0 auto}
+  .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main{flex:none;margin:auto}
+}
+
+
+
+.auth-heading-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:26px 0 8px}
+.account-page .auth-heading-row h2{margin:0}
+.auth-heading-row .text-button{white-space:nowrap;font-size:13px;flex:none;padding:0;min-height:28px}
+
+.registration-contact-copy{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;flex:none;color:var(--ui-text-primary);font-size:16px}
+.auth-heading-row .registration-contact-copy .text-button{color:var(--ui-green);font-size:16px;margin:0;padding:0}
+
+/* Reserve the two extra registration fields after the login actions. */
+#auth-form{display:flex;flex-direction:column}
+#auth-form>input,#auth-form>div,#auth-submit{flex-shrink:0}
+#auth-form #auth-submit{margin-top:var(--ui-field-action-gap)}
+#auth[data-mode=login]{padding-bottom:calc(2 * var(--ui-control-height) + 28px)}
+
+/* Keep the form anchored without disabling native pull-to-refresh. */
+html:has(body.account-page){overscroll-behavior-y:auto}
+.account-page{overflow-anchor:none;overscroll-behavior-y:auto}
+
+/* Shared secondary copy in login, registration, recovery and redemption. */
+.account-page .registration-contact-copy,
+.account-page .auth-heading-row .registration-contact-copy .text-button,
+.account-page .registration-code-row .text-button,
+.account-page #recover-mode,
+.account-page #register-purchase,
+.account-page .redeem-purchase,
+.account-page #redeem-help,
+.account-page #redeem-help .inline-help,
+.account-page .redeem-help-actions .text-button,
+.account-page .purchase-link{font-size:14px}
+
+/* Keep Safari's type scale stable across orientation changes. */
+html:has(body.account-page){width:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.account-page{width:100%;max-width:100%;min-width:0}
+.account-page #main,.account-page #main>.panel,.account-page .account-intro-copy{min-width:0}
+@media(min-width:801px){
+  html[data-account-orientation="landscape"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+}
+@media(min-width:1200px){
+  .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+}
+
+.order-platform{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.order-platform img{display:block;width:20px;height:20px;object-fit:contain;flex:none}
+
+/* A refresh of a signed-in account must not flash the login illustration. */
+.account-page.account-pending:not(.auth-pending) .intro{display:none}
+.account-page.account-pending:not(.auth-pending) #main{grid-template-columns:minmax(0,1fr);max-width:520px;border:0}
+
+.account-help-dialog:has(#order-example:not([hidden])){max-width:640px;padding:24px}
+.order-example-figure{margin:16px 0 0}
+.order-example-figure img{display:block;width:100%;height:auto;border-radius:12px;outline:1px solid rgb(0 0 0 / 5%);outline-offset:-1px}
+.order-example-figure figcaption{font-size:14px;color:var(--ui-muted);line-height:1.6;margin-top:10px}
+
+
+.codes-page .admin-title h1{margin:0;line-height:1.3;white-space:nowrap}
+
+
+
+/* Keep iPad rotation from triggering Safari text autosizing or wide form tracks. */
+html:has(>body.account-page){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.account-page{width:100%;min-width:0}
+.account-page #main{grid-template-columns:repeat(2,minmax(0,1fr));min-width:0;max-width:min(960px,100%)}
+.account-page #main>.panel,.account-page #auth,.account-page #auth-form{min-width:0;max-width:100%}
+.account-page #auth-form input{font-size:16px}
+@media(max-width:800px){.account-page #main{grid-template-columns:minmax(0,1fr);max-width:min(520px,100%)}}
+.account-page.member-account #main,.account-page.account-pending:not(.auth-pending) #main{grid-template-columns:minmax(0,1fr);max-width:min(520px,100%)}
+
+/* Recovery replaces the 52px mode tabs with equal space above and below. */
+#auth[data-mode=recover]{display:flex;flex-direction:column;justify-content:center;padding-block:0}
+#auth[data-mode=recover]>.auth-heading-row{margin-top:0}
+#auth[data-mode=recover]>*{flex-shrink:0}
+
+
+#auth:is([data-mode=login],[data-mode=register])>.auth-bottom-actions{justify-content:center}
+#auth[data-mode=recover]>.auth-bottom-actions{display:none}
+
+/* Recovery is a child screen on phones, without the login promotion or tab height. */
+@media(max-width:599px){
+  .account-page:has(#auth[data-mode=recover]:not([hidden])) .intro{display:none}
+  .account-page:has(#auth[data-mode=recover]:not([hidden])) #main{margin-top:16px}
+  .account-page:has(#auth[data-mode=recover]:not([hidden])) #main>.panel{padding-top:0}
+  #auth[data-mode=recover]{justify-content:flex-start;min-height:0}
+}
+
+/* Phone authentication leads with the form; the introduction follows it. */
+@media(max-width:599px){
+  .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main>.panel{order:0;padding-top:0}
+  .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main>.intro{order:1;margin-top:24px}
+}
+
+
+.import-options{margin:0 0 16px;color:var(--ui-text-secondary)}
+.import-options summary{cursor:pointer;font-size:14px;font-weight:400;min-height:28px;line-height:28px}
+.import-options label{margin-top:12px}
+
+ .search-result-item{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 0;border-bottom:1px solid var(--ui-divider)}
+.search-result-item:last-child{border-bottom:0}
+.search-result-copy{flex:1;min-width:0}
+.search-result-copy>strong{font-size:var(--ui-body-size);font-weight:600;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.search-result-copy>p{margin:8px 0 0;font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.search-result-item>.code-action{flex:none;white-space:nowrap}
+
+.search-result-number{display:flex;align-items:center;gap:8px}
+.search-result-number img{display:block;width:20px;height:20px;object-fit:contain;flex:none}
+.search-result-number span{min-width:0;overflow-wrap:anywhere}
+
+#panel-records .header-filter{width:auto;max-width:200px;min-height:40px;margin:0;padding:6px 24px 6px 0;border:0;border-radius:0;background-color:transparent;color:inherit;font:inherit;font-weight:inherit;cursor:pointer}
+#panel-records .header-filter:focus-visible{outline:2px solid var(--ui-primary,#287f71);outline-offset:2px}
+
+#panel-records .header-filter:focus{border-color:transparent;box-shadow:none}
+#panel-records .header-filter:focus:not(:focus-visible){outline:none}
+#panel-records .code-action{width:88px;white-space:nowrap}
+.records-search{display:flex;align-items:center;gap:12px;margin-top:24px}
+.records-search input{flex:1;min-width:0;margin:0}
+.records-search button{width:auto;flex:none;margin:0;min-width:80px}
+.codes-page .admin-tabs{--tab-count:3}
+@media(max-width:600px){.records-search{gap:8px}}
+
+.admin-main #order-search.records-search .primary{margin-top:0}
+
+.admin-main #order-search.records-search button{height:var(--ui-control-height);min-height:var(--ui-control-height);box-sizing:border-box}
+#panel-records .header-filter:focus,#panel-records .header-filter:focus-visible{outline:none;box-shadow:none;border-color:transparent}
+#panel-records .header-filter{appearance:auto;-webkit-appearance:auto;color:#b2b9b6;-webkit-text-fill-color:var(--ui-text-secondary);background-image:none}
+#panel-records .header-filter option{color:var(--ui-text);-webkit-text-fill-color:var(--ui-text)}
+/* Stable filter affordance across iPadOS, iOS and desktop native selects. */
+#panel-records .header-filter{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23858d89' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 2px center;background-size:16px 16px;padding-right:26px;color:var(--ui-text-secondary);-webkit-text-fill-color:var(--ui-text-secondary)}
+
+/* Narrow landscape tablets still have room for the login's two columns. */
+@media(min-width:720px) and (max-width:800px){
+ html[data-account-orientation="landscape"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main{grid-template-columns:minmax(0,1fr) minmax(0,1fr);border:1px solid #e8ece8;border-radius:20px;overflow:hidden}
+ html[data-account-orientation="landscape"] .account-page:is(.account-pending.auth-pending,:has(#auth:not([hidden]))) #main>.panel{padding:24px}
+}
+
+/* Login does not need registration's two-field reserve in a landscape card. */
+@media(min-width:720px){
+ html[data-account-orientation="landscape"] .account-page #auth[data-mode=login]{padding-bottom:0}
+}

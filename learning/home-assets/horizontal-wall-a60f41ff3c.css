@@ -1,0 +1,216 @@
+.universe.horizontal-stage{height:auto;max-width:1920px;background:transparent;perspective:none;overflow:hidden;margin:24px auto 0;padding:0 0 12px;cursor:default;isolation:isolate}.horizontal-stage:before,.horizontal-stage:after,.horizontal-stage .universe-halo{display:none}.horizontal-stage .universe-ui{position:static;transform:none;width:min(1240px,calc(100% - 80px));margin-inline:auto}.horizontal-stage .universe-top{max-width:1070px}.horizontal-wall{display:flex;flex-direction:column;gap:12px;padding:22px 0 18px;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}.horizontal-row{overflow:visible;display:flex}.horizontal-strip{display:flex;flex:none;width:max-content;animation:horizontal-flow 110s linear infinite;will-change:transform}.horizontal-row:nth-child(even) .horizontal-strip{animation-direction:reverse;animation-duration:125s}.horizontal-group{display:flex;flex:none;gap:12px;padding-right:12px}.horizontal-tile{display:block;flex:none;width:132px;height:106px;border:1px solid #00000006;border-radius:12px;background:white;padding:0;overflow:hidden;cursor:pointer}.horizontal-tile img{width:100%;height:100%;object-fit:contain}.horizontal-tile:hover{border-color:#287f7060}.horizontal-tile:focus-visible{outline:2px solid var(--green);outline-offset:3px}.paused .horizontal-strip,.offscreen .horizontal-strip,.background .horizontal-strip,body:has(dialog[open]) .horizontal-strip{animation-play-state:paused}.horizontal-stage .universe-bottom{display:flex;justify-content:space-between;align-items:center;min-height:48px;font-size:12px;color:var(--quiet)}.horizontal-stage .universe-bottom>div{display:flex;align-items:center;gap:8px}.horizontal-stage .universe-tools button{background:transparent}.horizontal-stage .drag-hint{display:inline-block}@keyframes horizontal-flow{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+@media(max-width:1100px){.horizontal-stage .universe-ui{width:calc(100% - 48px)}.horizontal-stage .drag-hint{display:none}}
+@media(max-width:700px){.universe.horizontal-stage{margin-top:22px;padding-bottom:8px}.horizontal-stage .universe-ui{width:calc(100% - 40px)}.horizontal-wall{gap:8px;padding:14px 0;mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}.horizontal-tile{width:96px;height:78px;border-radius:9px}.horizontal-group{gap:8px;padding-right:8px}.horizontal-strip{animation-duration:100s}.horizontal-row:nth-child(even) .horizontal-strip{animation-duration:115s}.horizontal-stage .universe-bottom{font-size:10px;gap:8px}}
+@media(prefers-reduced-motion:reduce){.horizontal-strip{animation:none!important;will-change:auto}}
+
+.horizontal-stage .universe-top,.horizontal-stage .universe-bottom>div:first-child{display:none}.horizontal-stage .universe-bottom{justify-content:flex-end}.horizontal-tile{cursor:default}.horizontal-tile:hover{border-color:#00000006}
+
+/* White introduction; catalog uses only the existing 240 × 192 thumbnails. */
+.header{background:#fff;box-shadow:0 0 0 100vmax #fff;clip-path:inset(0 -100vmax)}
+.hero{background:#fff}
+.catalog-grid .tile img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
+
+/* A bounded exploration window, with two rows per group. */
+.catalog-section{height:100svh;min-height:620px;display:flex;flex-direction:column;padding-top:36px;padding-bottom:24px}
+.catalog-section .section-intro{margin-top:8px}.catalog-controls{margin-top:20px}.results-line{margin:12px 0}
+.catalog-grid{flex:1;min-height:0;grid-template-columns:repeat(8,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));align-content:center;align-items:center}
+.catalog-grid .tile{width:100%;max-width:170px;justify-self:center;content-visibility:visible;contain-intrinsic-size:none;padding:6px 6px 10px}
+.catalog-grid .tile img{max-height:calc((100svh - 390px)/2);width:100%;object-fit:contain}
+.catalog-section .load-area{min-height:0;padding-top:16px;display:flex;align-items:center;justify-content:center;gap:20px;position:relative}
+.catalog-section .load-area .more{min-width:100px;padding:10px 18px}.catalog-section .more:disabled{opacity:.3}.catalog-page{font-size:13px;color:var(--quiet);min-width:64px}.catalog-section #empty{position:absolute;bottom:70px}
+@media(max-width:1100px){.catalog-grid{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(max-width:700px){.catalog-section{min-height:620px;padding-top:28px;padding-bottom:20px}.catalog-section h2{font-size:26px}.catalog-section .section-intro{font-size:13px}.catalog-controls{margin-top:16px}.catalog-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.catalog-grid .tile{max-width:150px}.catalog-grid .tile img{max-height:calc((100svh - 370px)/2)}.catalog-total strong{font-size:26px}.catalog-total{font-size:10px}.catalog-section .load-area{gap:12px}.catalog-section .load-area .more{font-size:13px;min-width:88px}}
+
+.theme-preview{min-height:580px;justify-content:center;gap:24px;padding-block:36px}.theme-preview .catalog-controls{margin:0}.theme-preview .categories{flex-wrap:wrap;overflow:visible;padding:0;gap:6px}.theme-preview .catalog-grid{flex:0 1 auto;grid-template-columns:repeat(8,minmax(0,1fr));grid-template-rows:auto;align-items:start;gap:12px;min-height:160px}.theme-preview .tile img{max-height:none;height:auto}.theme-action{text-align:center;margin-top:12px}.theme-preview .tile{animation:theme-reveal .25s ease-out}@keyframes theme-reveal{from{opacity:0}to{opacity:1}}
+@media(max-width:1100px){.theme-preview .catalog-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.theme-preview .tile{max-width:150px}}
+@media(max-width:700px){.theme-preview{gap:20px;min-height:640px;padding-block:28px}.theme-preview .catalog-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 10px}.theme-preview .categories{gap:4px}.theme-preview .categories button{font-size:12px;padding:7px 9px}.theme-preview h2{font-size:25px}.theme-action{margin-top:0}.theme-action .primary{font-size:14px;min-height:46px}}
+@media(prefers-reduced-motion:reduce){.theme-preview .tile{animation:none}}
+
+.theme-track{display:flex;width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x pan-y pinch-zoom;border-radius:12px}.theme-track::-webkit-scrollbar{display:none}.theme-preview .theme-panel{flex:0 0 100%;width:100%;scroll-snap-align:start;scroll-snap-stop:always;min-width:0;padding:6px 0 12px}.theme-preview .tile{animation:none}.theme-preview .theme-panel[inert]{pointer-events:none}
+
+/* Keep the theme rail on one line, with soft edges. */
+.theme-preview .categories{position:relative;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;gap:6px;padding:5px 18px;mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent);overscroll-behavior-x:contain}.theme-preview .categories::-webkit-scrollbar{display:none}.theme-preview .catalog-controls{min-width:0;width:100%}
+
+.theme-preview .categories{width:100%;margin-right:0}
+/* One white canvas; neutral surfaces provide local hierarchy. */
+:root,body,main{background:#fff}
+.header{box-shadow:none;clip-path:none}
+.theme-preview .tile{background:#fff;border-color:rgb(0 0 0/.08);box-shadow:none}
+.theme-preview .tile img{background:#fff}
+.theme-preview .tile:hover{border-color:rgb(40 127 112/.35);box-shadow:0 5px 16px rgb(0 0 0/.045);transform:translateY(-3px)}
+.theme-preview .categories button:hover:not([aria-pressed=true]){background:rgb(0 0 0/.04)}
+.learning-demo{background:#fafafa;border-color:rgb(0 0 0/.07)}
+.dialog-close:hover{background:rgb(0 0 0/.05)}
+dialog{background:#fff;box-shadow:0 24px 100px rgb(0 0 0/.16)}
+dialog::backdrop{background:rgb(0 0 0/.35)}
+.horizontal-tile{border-color:rgb(0 0 0/.04)}
+/* Alternate full-width floors with a barely tinted neutral. */
+:root{--floor-tint:#f8f9f8}
+main>section:nth-of-type(even){position:relative;isolation:isolate}
+main>section:nth-of-type(even)::before{content:"";position:absolute;inset:0 auto 0 50%;width:100vw;transform:translateX(-50%);background:var(--floor-tint);z-index:-1;pointer-events:none}
+/* Floor backgrounds separate sections; only the navigation keeps its rule. */
+.learning{border-top:0;border-bottom:0}
+.footer{border-top:0}
+.socials a{border-bottom:0}
+.brand>span{border-left:0}
+/* Reading hierarchy: content 16, controls 14–16, supporting text 12–13. */
+:root{--text-body:16px;--text-control:14px;--text-support:13px;--text-caption:12px}
+.hero-note{font-size:var(--text-support);line-height:1.6}
+.theme-preview .categories button{font-size:var(--text-control);padding:9px 14px}
+.theme-preview .tile strong{font-size:var(--text-control);line-height:1.35;white-space:normal;overflow-wrap:anywhere;text-overflow:clip;min-height:2.7em;margin:9px 0 4px;width:100%}
+.theme-preview .tile>span{font-size:var(--text-support);line-height:1.45;white-space:normal;text-overflow:clip;margin:0;overflow-wrap:anywhere;color:var(--tertiary)}
+.learning-demo p{font-size:var(--text-body)}
+.learning-demo p.translation{font-size:var(--text-control);line-height:1.65}
+.demo-label{font-size:var(--text-caption)}
+.demo-audio,.socials a>span{font-size:var(--text-control)}
+.footer,.footer small{font-size:var(--text-caption);line-height:1.7}
+.theme-action .primary,dialog .primary{font-size:var(--text-body)}
+@media(max-width:700px){.header nav{font-size:14px}.hero .eyebrow,.section-heading .eyebrow,.learning-copy .eyebrow,.creator .eyebrow{font-size:13px}.lead{font-size:16px;max-width:330px}.primary{font-size:16px}.explore-link{font-size:14px}.learning-copy>p:not(.eyebrow){font-size:16px}.learning-demo h3>span{font-size:14px}.theme-preview .categories button{padding:8px 12px}.theme-preview .tile strong{font-size:14px}.theme-preview .tile>span{font-size:13px}}
+
+/* Review refinements: flush theme rail and cleaner learning demo. */
+.horizontal-stage .universe-bottom{display:none}
+.theme-preview .categories{padding-inline:0;mask-image:linear-gradient(90deg,transparent,#000 10px,#000 calc(100% - 10px),transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 10px,#000 calc(100% - 10px),transparent)}
+.learning-copy>p:not(.eyebrow){margin-top:12px;margin-bottom:20px;line-height:1.75}
+.demo-audio{font-size:16px;gap:8px}.demo-audio svg{width:22px;height:22px;padding:0;background:none;border-radius:0;fill:none;stroke:currentColor;stroke-width:1.7}
+.socials a{font-size:18px;gap:14px}.socials a>span{font-size:16px}.socials img{width:30px;height:30px;flex:none}
+.learning-demo>img{width:45%;max-width:260px;flex:none;object-fit:contain}
+.learning-demo>div{min-width:0}
+@media(max-width:700px){.learning-demo{display:grid;grid-template-columns:1fr;padding:24px;gap:16px}.learning-demo>img{width:78%;max-width:260px;justify-self:center}.learning-demo h3>span{display:inline;margin-left:8px}.socials a{font-size:18px}.socials a>span{font-size:16px}}
+
+/* Focused hero, edge-aware fades and compact creator links. */
+.hero-note{font-size:14px}
+.header{border-bottom-color:rgb(0 0 0/.055)}
+.theme-preview .categories{--fade-start:#000;--fade-end:#000;mask-image:linear-gradient(90deg,var(--fade-start),#000 12px,#000 calc(100% - 12px),var(--fade-end));-webkit-mask-image:linear-gradient(90deg,var(--fade-start),#000 12px,#000 calc(100% - 12px),var(--fade-end))}
+.theme-preview .categories.fade-left{--fade-start:transparent}.theme-preview .categories.fade-right{--fade-end:transparent}
+.socials{gap:16px}
+.socials a{display:flex;align-items:center;gap:14px;padding:16px 18px;border:1px solid rgb(0 0 0/.05);border-radius:14px;background:rgb(255 255 255/.65)}
+.socials a>.social-copy{display:flex;flex-direction:column;gap:4px;margin:0;flex:1;min-width:0;color:var(--ink)}
+.social-copy strong{font-size:16px;font-weight:500}.social-copy>span{font-size:14px;color:var(--tertiary)}
+.socials .social-arrow{width:18px;height:18px;color:var(--quiet)}
+.footer{background:var(--floor-tint);position:relative;isolation:isolate;border-top:1px solid rgb(0 0 0/.055)}
+.footer::before{content:"";position:absolute;inset:0 auto 0 50%;width:100vw;transform:translateX(-50%);background:var(--floor-tint);z-index:-1}
+@media(max-width:700px){.socials{gap:10px;margin-top:24px}.socials a{padding:14px 16px}.hero-note{font-size:14px}}
+.theme-preview .tile strong{min-height:0;margin-top:7px;margin-bottom:3px}
+/* Paint the end of the page directly, including safe-area/overscroll canvas. */
+:root,html{background:var(--floor-tint)}
+.footer.wrap{width:100%;margin-inline:0;padding-inline:max(40px,calc((100% - 1240px)/2));padding-bottom:calc(26px + env(safe-area-inset-bottom,0px));background:var(--floor-tint);border-top:0}
+.footer::before{inset:0 40px auto;width:auto;height:1px;transform:none;background:rgb(0 0 0/.055);z-index:0;pointer-events:none}
+@media(max-width:700px){.footer.wrap{padding-inline:20px}.footer::before{left:20px;right:20px}}
+
+/* Preview refinement: compact labels and a baseline-aligned footer. */
+.theme-preview .tile strong,.theme-preview .tile>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal}
+.theme-description{font-size:16px;line-height:1.6;color:var(--tertiary);margin:12px 0 0}
+.footer{gap:12px 20px;align-items:baseline}.footer-identity{display:flex;align-items:baseline;gap:8px;min-width:0}.footer-identity .brand{align-items:baseline;gap:7px}.footer-identity .brand img{align-self:center}.footer-slash{color:var(--quiet)}.footer-tagline{font-size:12px;line-height:1.5}.footer small{white-space:nowrap;flex:none;margin-left:auto;width:auto}
+@media(max-width:700px){.theme-preview{gap:12px;padding-block:24px}.theme-preview .eyebrow{margin-bottom:8px}.theme-description{font-size:14px;line-height:1.5;margin-top:8px}.theme-preview .theme-panel{padding-block:2px 6px;gap:10px}.theme-preview .tile img{max-height:76px}.theme-preview .tile{padding-bottom:8px}.footer{gap:10px 16px}.footer-identity{gap:6px}.footer-identity .brand{gap:5px}.footer-identity .brand strong{font-size:16px}.footer-tagline{font-size:12px}.footer small{margin-left:0}}
+
+/* Shared section typography and balanced floor spacing. */
+:root{--section-copy-size:16px;--section-copy-line:1.75;--section-copy-gap:12px}
+.header{height:72px;gap:16px}.header .brand{align-items:baseline;gap:7px}.header .brand img{align-self:center;width:28px;height:28px}.header .brand strong{font-size:18px}.header .brand>.header-tagline{display:inline;border:0;padding:0;margin:0;font-size:13px;color:var(--tertiary)}
+.header .preview-account{max-width:240px}.header .preview-account summary{display:flex;align-items:center;gap:7px;overflow:visible;max-width:100%}.account-avatar{width:24px;height:24px;flex:none;border-radius:4px;image-rendering:pixelated}.account-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}.header .account-chevron{width:16px;height:16px;flex:none;stroke-width:1.6;transition:transform .18s}.preview-account[open] .account-chevron{transform:rotate(180deg)}
+.theme-description,.learning-copy>p:not(.eyebrow),.section-intro{font-size:var(--section-copy-size);line-height:var(--section-copy-line);margin:var(--section-copy-gap) 0 0;color:var(--tertiary)}
+.learning-copy>p:not(.eyebrow){margin-bottom:20px}
+.theme-preview .tile img{width:100%;height:auto;aspect-ratio:5/4;max-height:none;object-fit:contain;flex:none}
+.learning{margin-top:0;min-height:100svh;padding-block:64px;align-items:center;align-content:center}
+.footer{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:12px}.footer small{margin:0;justify-self:end;white-space:nowrap}.footer-identity{white-space:nowrap}
+@media(max-width:1100px){.header .brand>.header-tagline{display:none}}
+@media(max-width:700px){.header{height:60px}.header .brand strong{font-size:16px}.header .brand img{width:24px;height:24px}.header .preview-account{max-width:190px}.header .preview-account summary{gap:6px}.account-avatar{width:22px;height:22px}.header .account-chevron{width:14px;height:14px}.theme-preview{height:auto;min-height:100svh;padding-block:20px;gap:12px}.theme-preview .theme-panel{gap:8px;padding-block:2px 4px}.theme-preview .tile{padding:5px 5px 8px}.learning{padding-block:40px;gap:32px}.footer{grid-template-columns:minmax(0,1fr);gap:10px}.footer small{justify-self:start}.footer-tagline{font-size:12px}}
+.section-heading .eyebrow,.learning-copy .eyebrow,.creator .eyebrow{font-size:14px;line-height:1.6;margin:0 0 12px}
+
+/* Unified floor rhythm, without viewport-driven blank space. */
+:root{--floor-space:72px;--floor-content-gap:24px}
+main>section:not(.hero){height:auto;min-height:0;margin-top:0;margin-bottom:0;padding-block:var(--floor-space)}
+.theme-preview{justify-content:flex-start;gap:var(--floor-content-gap)}.theme-preview .catalog-controls{margin:0}.theme-preview .theme-action{margin-top:0}
+.learning{align-content:normal;gap:48px}
+.hero-copy{padding-top:var(--floor-space)}.hero{padding-bottom:var(--floor-space)}.horizontal-stage{padding-bottom:0}.horizontal-wall{padding-bottom:0}
+.header .brand{align-items:center;gap:8px;min-width:0}.header .brand img{width:34px;height:34px;align-self:center;flex:none;transform:none}
+.header .brand>.header-words{display:flex;align-items:baseline;gap:8px;padding:0;margin:0;border:0;min-width:0}
+.header .header-tagline{display:block;font-size:13px;line-height:1.5;color:var(--tertiary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.header .preview-account summary,.header .preview-account-options a,.header .preview-account-options button{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+.header .preview-account summary,.header .preview-account summary:active,.header .preview-account[open] summary{background:transparent;box-shadow:none;border:0;color:var(--tertiary)}
+.header .preview-account summary:hover{color:var(--green)}.header .preview-account summary:focus{outline:none}.header .preview-account summary:focus-visible{outline:2px solid var(--green);outline-offset:4px}
+.learning-copy .primary{gap:10px}
+.footer{grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:12px}.footer-identity{min-width:0;gap:6px}.footer-identity .brand{flex:none}.footer-tagline{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.footer small{justify-self:end;white-space:nowrap;min-width:max-content}
+@media(max-width:1100px){:root{--floor-space:56px}.header .brand>.header-words{display:flex}.header .header-tagline{display:block}}
+@media(max-width:700px){:root{--floor-space:40px;--floor-content-gap:20px}.header{height:64px}.header .brand{flex:1}.header .brand img{width:28px;height:28px;align-self:flex-start;margin-top:0}.header .brand>.header-words{display:block;min-width:0}.header .brand strong{display:block;line-height:28px}.header .header-tagline{font-size:11px;line-height:16px}.header .preview-account{max-width:120px}.header .account-avatar{width:20px;height:20px}.header .account-name{max-width:70px}.header .preview-account summary{gap:5px}.header nav{flex:none}.header nav .nav-auth{padding:9px 12px}.learning{gap:32px}.footer{grid-template-columns:minmax(0,1fr) auto;gap:10px}.footer small{justify-self:end}.footer-identity{gap:4px}.footer-identity .brand{gap:4px}.footer-tagline{font-size:12px}}
+.header .brand>.header-words{color:var(--ink)}
+/* Desktop keeps an immersive full-screen theme and learning floor. */
+@media(min-width:1101px) and (orientation:landscape){main>section.theme-preview,main>section.learning{min-height:100svh;justify-content:center}.learning{align-content:center}}
+/* A centered introduction and presentation for the theme floor. */
+.theme-preview{text-align:center;align-items:center}
+.theme-preview .section-heading{width:100%;justify-content:center;text-align:center}
+.theme-preview .section-heading>div{min-width:0;width:100%}
+.theme-preview #catalog-title{max-width:none;white-space:nowrap}
+.theme-preview .categories{justify-content:safe center}
+.theme-preview .tile{text-align:center}
+@media(max-width:700px){.theme-preview #catalog-title{font-size:clamp(18px,5.3vw,25px);letter-spacing:-.035em}}
+.theme-preview .tile>span{width:100%;text-align:center}
+/* One type scale for every floor after the introduction. */
+:root{--floor-title-size:36px;--floor-title-line:1.3;--floor-body-size:16px}
+.theme-preview #catalog-title,.learning-copy h2,.creator h2{font-size:var(--floor-title-size);line-height:var(--floor-title-line);font-weight:700;margin:0;text-wrap:balance}
+.theme-description,.learning-copy>p:not(.eyebrow){font-size:var(--floor-body-size);line-height:1.75;margin-top:12px}
+.section-heading .eyebrow,.learning-copy .eyebrow,.creator .eyebrow{font-size:14px;line-height:1.6;margin-bottom:12px}
+.creator{text-align:center}.creator .socials{max-width:960px;margin:24px auto 0;text-align:left}
+@media(max-width:1100px){:root{--floor-title-size:30px}}
+@media(max-width:900px){.learning{grid-template-columns:1fr;text-align:center;justify-items:center}.learning-copy{width:100%;max-width:640px}.learning-demo{width:100%;max-width:640px;text-align:center}.learning-demo>img{margin-inline:auto}.demo-audio{justify-content:center}}
+@media(max-width:700px){:root{--floor-title-size:clamp(18px,5.3vw,24px)}.creator .socials{max-width:400px}.learning-copy>p:not(.eyebrow){font-size:var(--floor-body-size)}.learning-demo h3{font-size:24px}.learning-demo p{font-size:16px}.learning-demo p.translation{font-size:14px}}
+/* Keep the tablet example compact: artwork beside one aligned text column. */
+@media(min-width:701px) and (max-width:1100px){.learning-demo{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:24px;padding:28px;text-align:left}.learning-demo>img{width:100%;max-width:260px;margin:0 auto}.learning-demo>div{width:100%;min-width:0}.learning-demo .demo-label,.learning-demo h3,.learning-demo p{text-align:left}.learning-demo .demo-audio{justify-content:flex-start}.learning-demo h3>span{display:inline;margin-left:6px}}
+@media(max-width:700px){.learning-demo{justify-items:center;align-items:center}.learning-demo>div{width:100%;text-align:center}.learning-demo .demo-label,.learning-demo h3,.learning-demo p{text-align:center}}
+/* Separate adjacent themes while dragging; each panel still fills the viewport. */
+.theme-track{column-gap:24px}
+@media(max-width:700px){.theme-track{column-gap:20px}}
+.learning-copy h2{white-space:nowrap;text-wrap:nowrap}
+/* The swipe viewport should not round or clip the outer page corners. */
+.theme-track{border-radius:0}
+/* Mobile navigation keeps only the brand name. */
+@media(max-width:700px){.header .header-tagline{display:none}.header .brand img{align-self:center}}
+/* Shared primary action across the first three floors. */
+.hero-actions .primary,.theme-action .primary,.learning-copy .primary{min-height:52px;padding:0 32px;font-size:16px;line-height:1.5;font-weight:600;gap:10px;border-radius:99px}
+/* Account text keeps its neutral color across pointer states. */
+.header .preview-account summary:hover,.header .preview-account summary:active,.header .preview-account[open] summary{color:var(--tertiary)}
+/* Two balanced title lines when the learning floor uses desktop columns. */
+.learning-title-break{display:none}
+@media(min-width:901px) and (orientation:landscape){.learning-title-break{display:initial}}
+/* Mouse hover may pause the wall; touch taps never create a sticky pause. */
+@media(hover:hover) and (pointer:fine){.horizontal-wall:hover .horizontal-strip{animation-play-state:paused}}
+/* Theme cards are a non-interactive preview, with swiping retained. */
+.theme-preview .tile,.theme-preview .tile:hover{cursor:default;transform:none;box-shadow:none;border-color:rgb(0 0 0/.08)}
+/* Let one working sample explain the interactive edition. */
+.live-demo .sample-levels{display:inline-flex;gap:4px;padding:4px;border-radius:99px;background:#eef1ef;margin:0 0 10px}.sample-levels button{border:0;background:transparent;border-radius:99px;padding:7px 14px;font-size:14px;line-height:1.5;color:var(--tertiary)}.sample-levels button[aria-pressed=true]{background:#fff;color:var(--green);box-shadow:0 1px 4px #00000009}.live-demo .sample-tools{display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;margin-top:20px}.live-demo .demo-audio{border:0;background:none;padding:0;min-height:40px;margin:0;cursor:pointer}.sample-tools #sample-hide{border:0;background:transparent;color:var(--tertiary);padding:8px 0;font-size:14px;min-height:40px}.live-demo .sample-status{font-size:14px;color:#a13737;margin:0}.live-demo .sample-status:empty{display:none}.live-demo #sample-sentence{min-height:0}.learning-benefits{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;margin-top:8px;text-align:left}.benefit-number{font-size:13px;color:var(--green)}.learning-benefits h3,.start-steps h3{font-size:20px;line-height:1.4;margin:10px 0}.learning-benefits p,.start-steps p{font-size:16px;line-height:1.75;color:var(--tertiary);margin:0}.getting-started{text-align:center}.getting-started h2{font-size:var(--floor-title-size);line-height:var(--floor-title-line);margin:0;font-weight:700;text-wrap:balance}.getting-started .section-intro{max-width:none}.start-steps{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;padding:0;margin:40px 0 0;text-align:left;counter-reset:steps}.start-steps li{min-width:0}.start-steps li>span{font-size:14px;color:var(--green)}.start-steps a{display:inline-flex;align-items:center;gap:8px;color:var(--green);font-size:16px;min-height:44px;margin-top:12px}.start-steps a:hover{text-decoration:underline}
+@media(max-width:1100px){.learning-benefits{gap:24px}.start-steps{gap:24px}}
+@media(max-width:900px){.live-demo .sample-tools{justify-content:center}.learning-benefits{text-align:center}.live-demo{max-width:720px}}
+@media(min-width:701px) and (max-width:1100px){.live-demo .sample-tools{justify-content:flex-start}}
+@media(max-width:700px){.learning-benefits{grid-template-columns:1fr;gap:24px;width:100%;margin-top:0}.learning-benefits article{max-width:380px;margin-inline:auto}.learning-benefits h3,.start-steps h3{font-size:18px;margin:6px 0 8px}.start-steps{grid-template-columns:1fr;gap:28px;margin-top:28px;text-align:center}.start-steps li{max-width:380px;margin-inline:auto}.live-demo #sample-sentence{min-height:0}.live-demo .sample-levels{margin-top:0}.live-demo .sample-tools{gap:8px 18px}.live-demo .demo-label{font-size:13px}}
+.getting-started>.eyebrow{font-size:14px;line-height:1.6;margin:0 0 12px}.start-steps a svg{width:18px;height:18px}
+
+/* Fade the edges with stationary overlays instead of masking moving layers. */
+.horizontal-wall{position:relative;mask-image:none;-webkit-mask-image:none}
+.horizontal-wall::before,.horizontal-wall::after{content:"";position:absolute;top:0;bottom:0;width:7%;z-index:2;pointer-events:none}
+.horizontal-wall::before{left:0;background:linear-gradient(90deg,#fff,rgba(255,255,255,0))}
+.horizontal-wall::after{right:0;background:linear-gradient(270deg,#fff,rgba(255,255,255,0))}
+.horizontal-strip{backface-visibility:hidden}
+@media(max-width:700px){.horizontal-wall::before,.horizontal-wall::after{width:4%}}
+
+/* Keep supporting features compact; the interactive card demonstrates the basics. */
+.learning-features{grid-column:1/-1;display:flex;justify-content:center;flex-wrap:wrap;gap:8px 28px;list-style:none;margin:0;padding:0;color:var(--tertiary);font-size:14px;line-height:1.75;text-wrap:pretty}.learning-features li{display:flex;align-items:center;gap:8px}.learning-features li:before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.5}
+
+/* Preview polish: white loading surface and clear type hierarchy. */
+.hero .universe{background:#fff;perspective:none}.universe .universe-ui,.universe .universe-halo{display:none!important}.universe.horizontal-stage{padding-bottom:0}.horizontal-tile{cursor:default}.horizontal-tile:hover{border-color:rgb(0 0 0/.025)}
+.live-demo .sample-tools .demo-audio,.live-demo .sample-tools #sample-hide{font-size:16px;line-height:1.5;font-weight:400}
+.learning-features li::before{content:none}.learning-features li svg{width:18px;height:18px;stroke-width:1.7;color:var(--tertiary)}
+@media(max-width:700px){.live-demo .sample-tools .demo-audio,.live-demo .sample-tools #sample-hide{font-size:15px}}
+
+/* Keep row content stable while visible; use a flat transform for the looping strip. */
+.horizontal-strip{backface-visibility:visible;transform-style:flat}
+@keyframes horizontal-flow{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:700px){.horizontal-row:nth-child(n+5){display:none}.horizontal-strip{animation-duration:150s}.horizontal-row:nth-child(even) .horizontal-strip{animation-duration:172.5s}}
+
+/* Header and footer share the same content gutters; controls stay on opposite ends. */
+.header.wrap{width:100%;margin-inline:0;padding-inline:40px;border-bottom:0;position:relative;justify-content:space-between;flex-wrap:nowrap}
+.header.wrap::after{content:"";position:absolute;left:40px;right:40px;bottom:0;height:1px;background:var(--line);pointer-events:none}
+.header .brand{flex:1 1 auto;min-width:0}
+.header .header-words{min-width:0}
+.header .header-words strong{flex:none}
+.header .header-tagline{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.header nav{flex:0 0 auto;margin-left:auto;white-space:nowrap}
+@media(max-width:700px){.header.wrap{padding-inline:20px}.header.wrap::after{left:20px;right:20px}}

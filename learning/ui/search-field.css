@@ -1,0 +1,14 @@
+/* Canonical search control: links and actual inputs share the same shell. */
+.ui-search-entry,.ui-search-field{box-sizing:border-box;position:relative;display:flex;align-items:center;gap:10px;min-width:0;min-height:var(--ui-control-height,52px);padding:0 8px 0 16px;border:1px solid var(--ui-border,#c9d5d5);border-radius:var(--ui-radius,12px);background:var(--ui-surface,#fff);color:var(--ui-placeholder,rgb(0 0 0 / 46%));font:400 var(--ui-body-size,16px)/24px var(--ui-font,system-ui);text-decoration:none;box-shadow:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.ui-search-field{flex:1}.ui-search-entry{padding-right:16px;cursor:pointer;user-select:none;-webkit-user-select:none}
+.ui-search-entry>svg,.ui-search-field>svg{display:block;flex:none;width:20px;height:20px;stroke-width:1.75;pointer-events:none}
+.ui-search-field>input{box-sizing:border-box;flex:1;min-width:0;width:100%;height:50px;min-height:0;margin:0;padding:0!important;border:0!important;border-radius:0;background:transparent!important;color:var(--ui-text-primary);font:inherit;line-height:24px;outline:none!important;box-shadow:none!important;appearance:none;-webkit-appearance:none;-webkit-tap-highlight-color:transparent}
+.ui-search-field>input::placeholder{color:var(--ui-placeholder);opacity:1}.ui-search-field>input::-webkit-search-cancel-button{display:none}
+/* One state treatment for the search affordance and the actual input shell. */
+.ui-search-entry:is(:active,:focus-visible),.ui-search-field:is(:active,:focus-within){border-color:var(--ui-green);box-shadow:0 0 0 3px var(--ui-focus-halo);background:var(--ui-surface,#fff);color:var(--ui-placeholder);outline:none}
+.ui-search-entry:focus:not(:focus-visible){outline:none}
+.ui-search-field>.ui-search-clear{box-sizing:border-box;position:static!important;transform:none;display:grid;place-items:center;flex:none;width:36px!important;min-width:36px!important;max-width:36px!important;height:36px!important;min-height:36px!important;margin:0!important;padding:0!important;border:0!important;border-radius:50%;appearance:none;-webkit-appearance:none;background:transparent!important;color:var(--ui-text-quaternary);box-shadow:none!important;cursor:pointer;line-height:1;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.ui-search-field>.ui-search-clear::before{display:none;content:none}.ui-search-field>.ui-search-clear svg{display:block;position:static;width:16px;height:16px;stroke:currentColor;stroke-width:1.75;pointer-events:none}
+.ui-search-field>.ui-search-clear[hidden]{display:none!important}.ui-search-field>.ui-search-clear:active{background:var(--ui-green-light)!important;color:var(--ui-green)}
+.ui-search-field>.ui-search-clear:focus-visible{outline:2px solid var(--ui-focus);outline-offset:0}
+@media(hover:hover){.ui-search-entry:hover{background:var(--ui-surface,#fff)}.ui-search-field>.ui-search-clear:hover{color:var(--ui-text-secondary)}}
