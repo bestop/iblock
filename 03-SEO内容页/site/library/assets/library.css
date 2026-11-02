@@ -1,0 +1,136 @@
+/* 很好学 · SEO 内容页样式(自包含,设计令牌取自主站 ui/tokens.css) */
+:root {
+  --ui-font: system-ui, -apple-system, "PingFang SC", "Microsoft Yahei", sans-serif;
+  --ui-green: #287f70;
+  --ui-green-hover: #206d60;
+  --ui-green-light: #edf4f1;
+  --ui-focus: #82b7a9;
+  --ui-border: #c9d5d5;
+  --ui-divider: #e3e8e3;
+  --ui-error: #b64040;
+  --ui-text-primary: rgb(0 0 0 / 88%);
+  --ui-text-secondary: rgb(0 0 0 / 75%);
+  --ui-text-tertiary: rgb(0 0 0 / 60%);
+  --ui-surface: #fff;
+  --ui-card-stroke: rgb(0 0 0 / 5%);
+  --ui-radius: 12px;
+  --ui-page-title-size: 30px;
+  --ui-subtitle-size: 18px;
+  --ui-body-size: 16px;
+  --ui-small-size: 14px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--ui-font);
+  font-size: var(--ui-body-size);
+  line-height: 1.7;
+  color: var(--ui-text-secondary);
+  background: #f6f8f7;
+}
+a { color: var(--ui-green); text-decoration: none; }
+a:hover { color: var(--ui-green-hover); text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--ui-focus); outline-offset: 2px; }
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 12px; top: 12px; background: #fff; padding: 6px 12px; border-radius: 8px; }
+
+/* 页头 / 页脚 */
+.site-head, .site-foot {
+  max-width: 760px; margin: 0 auto; padding: 16px 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.site-head { justify-content: space-between; }
+.brand {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-weight: 700; font-size: 18px; color: var(--ui-text-primary);
+}
+.brand-sub { color: var(--ui-text-tertiary); font-size: var(--ui-small-size); }
+.gem {
+  width: 14px; height: 14px; background: var(--ui-green);
+  border-radius: 3px; transform: rotate(45deg); display: inline-block; flex: none;
+}
+.site-foot { flex-direction: column; align-items: flex-start; gap: 8px; border-top: 1px solid var(--ui-divider); margin-top: 28px; }
+.site-foot nav { display: flex; flex-wrap: wrap; gap: 14px; }
+.foot-brand { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--ui-text-primary); margin: 0; }
+.foot-note { color: var(--ui-text-tertiary); font-size: var(--ui-small-size); margin: 0; }
+
+/* 面包屑 */
+.crumbs { max-width: 760px; margin: 4px auto 0; padding: 0 20px; font-size: var(--ui-small-size); color: var(--ui-text-tertiary); }
+.crumbs .sep { margin: 0 6px; }
+.crumbs [aria-current] { color: var(--ui-text-tertiary); }
+
+/* 卡片 */
+main { padding-bottom: 8px; }
+.card {
+  max-width: 760px; margin: 14px auto 0; padding: 26px 26px 30px;
+  background: var(--ui-surface); border: 1px solid var(--ui-card-stroke);
+  border-radius: var(--ui-radius);
+}
+.card h1 { font-size: var(--ui-page-title-size); line-height: 1.3; color: var(--ui-text-primary); margin: 8px 0 10px; }
+.card h2 { font-size: var(--ui-subtitle-size); color: var(--ui-text-primary); margin: 22px 0 8px; }
+.lead { font-size: 17px; }
+.badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 6px; }
+.badge {
+  display: inline-block; padding: 3px 12px; border-radius: 999px;
+  background: var(--ui-green-light); color: var(--ui-green);
+  font-size: 13px; font-weight: 600; line-height: 1.6;
+}
+a.badge:hover { background: #ddeae6; text-decoration: none; }
+.badge-soft { background: #f1f4f2; color: var(--ui-text-tertiary); font-weight: 500; }
+
+/* 短语页 */
+.phrase-card .phrase-en { font-size: 34px; font-weight: 800; color: var(--ui-text-primary); line-height: 1.25; margin: 6px 0 4px; }
+h1.phrase-en { font-size: 34px; }
+.phrase-zh-big { font-size: 22px; color: var(--ui-green); font-weight: 600; margin: 0 0 14px; }
+.phrase-img, .reading-img {
+  display: block; width: 100%; max-width: 560px; height: auto;
+  border-radius: var(--ui-radius); margin: 14px 0 6px; border: 1px solid var(--ui-card-stroke);
+}
+.sentence {
+  margin: 20px 0 4px; padding: 14px 18px; border-left: 4px solid var(--ui-green);
+  background: var(--ui-green-light); border-radius: 0 var(--ui-radius) var(--ui-radius) 0;
+}
+.sentence-en { font-size: 18px; font-weight: 600; color: var(--ui-text-primary); margin: 0; }
+.sentence-note { margin: 6px 0 0; color: var(--ui-text-tertiary); font-size: var(--ui-small-size); }
+.word-tip { color: var(--ui-text-tertiary); font-size: var(--ui-small-size); }
+
+/* 短语列表(专题页) */
+.phrase-list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 10px; }
+.phrase-item { border: 1px solid var(--ui-divider); border-radius: var(--ui-radius); background: #fbfdfc; }
+.phrase-link { display: block; padding: 12px 16px; }
+.phrase-link:hover { text-decoration: none; background: var(--ui-green-light); border-radius: var(--ui-radius); }
+.phrase-en { font-weight: 700; color: var(--ui-text-primary); margin-right: 10px; }
+.phrase-zh { color: var(--ui-green); }
+.phrase-hint { display: block; color: var(--ui-text-tertiary); font-size: var(--ui-small-size); margin-top: 2px; }
+
+/* 相关推荐 */
+.related { max-width: 760px; margin: 18px auto 0; padding: 0 4px; }
+.related h2 { font-size: 20px; color: var(--ui-text-primary); margin: 0 0 10px; }
+.mini-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.mini-list.big { gap: 10px; }
+.mini-list li a {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px;
+  border: 1px solid var(--ui-divider); border-radius: var(--ui-radius);
+  padding: 10px 14px; background: #fff;
+}
+.mini-list li a:hover { text-decoration: none; background: var(--ui-green-light); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-block; padding: 6px 14px; border-radius: 999px;
+  background: #fff; border: 1px solid var(--ui-divider); font-size: var(--ui-small-size);
+}
+.chip:hover { border-color: var(--ui-green); text-decoration: none; }
+.more { font-weight: 600; }
+.hub-group { max-width: 760px; margin: 18px auto 0; padding: 18px 22px; background: #fff; border: 1px solid var(--ui-card-stroke); border-radius: var(--ui-radius); }
+.hub-group h2 { margin: 0 0 10px; font-size: 20px; color: var(--ui-text-primary); }
+
+@media (max-width: 640px) {
+  .card { padding: 20px 16px 24px; margin: 10px 12px 0; }
+  .crumbs { padding: 0 24px; }
+  .site-head, .site-foot { padding: 14px 16px; }
+  .hub-group { margin: 14px 12px 0; padding: 14px 16px; }
+  .related { margin: 14px 16px 0; }
+  .card h1 { font-size: 24px; }
+  .phrase-card .phrase-en, h1.phrase-en { font-size: 27px; }
+}

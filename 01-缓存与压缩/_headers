@@ -1,0 +1,26 @@
+# _headers —— 通用静态托管响应头配置
+# 适用:Cloudflare Pages / Netlify / Cloudflare Workers Static Assets
+# 用法:把本文件放到站点静态根目录(与 index.html 同级)。
+# 若源站不是上述平台,请改用 nginx-cache.conf 或 node-cache.js。
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# 静态资源:浏览器缓存 1 年(配合 ?v= 版本串,发布新版本自动失效)
+/lib/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/learning/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/app-icons/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 内容 JSON:边缘与浏览器各缓存 1 天
+/learning/content/*.json
+  Cache-Control: public, max-age=86400
+
+# HTML:每次校验,保证更新及时
+/*
+  Cache-Control: public, max-age=0, must-revalidate

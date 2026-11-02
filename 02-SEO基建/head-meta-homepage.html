@@ -1,0 +1,78 @@
+<!-- ============================================================
+  head-meta-homepage.html —— 首页 <head> SEO 增强片段
+  ------------------------------------------------------------
+  用法:粘贴到 henhaoxue.com 首页源码 <head> 内,
+        建议紧跟在现有 <link rel="canonical" ...> 之后。
+  现状:首页已有 title / description / robots / canonical(保留不动)。
+  缺失:Open Graph(微信/抖音/小红书/Telegram 分享卡片)、
+        Twitter Card、JSON-LD 结构化数据 —— 本片段一次补齐。
+  注意:og:image 暂用已验证存在的品牌图标(180×180 PNG);
+        建议后续制作一张 1200×630 的分享封面(如 og-cover.jpg,
+        内容:品牌名 + 方块世界场景 + "从喜欢的世界,开始学英语"),
+        上传到 /app-icons/og-cover.jpg 后,把下方两处 og:image /
+        twitter:image 的 URL 替换为 https://henhaoxue.com/app-icons/og-cover.jpg
+  ============================================================ -->
+
+<!-- Open Graph:社交平台分享卡片 -->
+<meta property="og:site_name" content="很好学">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:type" content="website">
+<meta property="og:title" content="很好学 · 方块世界英语学习">
+<meta property="og:description" content="认识游戏单词,和队友用英语交流,发现方块世界的小知识与实用技巧。三个专题均可免费体验。">
+<meta property="og:url" content="https://henhaoxue.com/">
+<meta property="og:image" content="https://henhaoxue.com/app-icons/diamond-180-v2.png">
+<meta property="og:image:alt" content="很好学 · 方块世界英语学习">
+
+<!-- Twitter/X 卡片 -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="很好学 · 方块世界英语学习">
+<meta name="twitter:description" content="认识游戏单词,和队友用英语交流,发现方块世界的小知识与实用技巧。三个专题均可免费体验。">
+<meta name="twitter:image" content="https://henhaoxue.com/app-icons/diamond-180-v2.png">
+
+<!-- JSON-LD 结构化数据:帮助搜索引擎理解站点与内容库 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://henhaoxue.com/#website",
+      "url": "https://henhaoxue.com/",
+      "name": "很好学",
+      "alternateName": "很好学 · 方块世界英语学习",
+      "description": "认识游戏单词,和队友用英语交流,发现方块世界的小知识与实用技巧。",
+      "inLanguage": "zh-CN"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://henhaoxue.com/#organization",
+      "name": "很好学",
+      "url": "https://henhaoxue.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://henhaoxue.com/app-icons/diamond-180-v2.png"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "hasPart": [
+        {
+          "@type": "CollectionPage",
+          "name": "方块世界英语单词图鉴",
+          "url": "https://henhaoxue.com/library/words/"
+        },
+        {
+          "@type": "CollectionPage",
+          "name": "方块世界英语阅读图鉴",
+          "url": "https://henhaoxue.com/library/readings/"
+        },
+        {
+          "@type": "CollectionPage",
+          "name": "联机英语短语专题",
+          "url": "https://henhaoxue.com/library/scenes/"
+        }
+      ]
+    }
+  ]
+}
+</script>
