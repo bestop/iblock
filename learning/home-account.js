@@ -8,7 +8,7 @@ import {iconMarkup as glyph} from './ui/icons.js?v=20261022-context-gloss-v1';
 import {getLanguage,setLanguage,translate} from './ui/language.js?v=20261023-add-hhx-desktop';
 // Same-origin learning preview account menu; session identity comes only from /api/me.
 const isHomepage=location.pathname==='/';
-const demoLinks=isHomepage?[...document.querySelectorAll('a[href="https://henhaoxue.com/learning/"]')].map(a=>({a,html:a.innerHTML,href:a.href})):[];
+const demoLinks=isHomepage?[...document.querySelectorAll('a[href="/learning/"]')].map(a=>({a,html:a.innerHTML,href:a.href})):[];
 const note=document.querySelector('.hero-note'),noteText=note?.textContent
 const entry=document.querySelector('nav .nav-auth')
 entry.hidden=true;const pending=document.querySelector('.account-state-pending');entry.closest('nav').setAttribute('aria-busy','true')
