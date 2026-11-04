@@ -6,7 +6,7 @@ learningFavoritesReady.catch(()=>{});
 import {renderWordBrowser,wordSearchEntry} from './word-browser.js?v=20261025-return-snapshot';
 import {fetchPreviewJson,renderPreviewError,previewAccess} from './ui/preview-access.js';
 import './ui/card-feedback.js?v=20261025-word-press';
-import './trial-directory.js';
+import './trial-directory.js?v=20261104-unlock-blocks';
 import {favoriteReturnHref,favoriteItemHref,readerHref,restoreDirectoryScroll,installNavigation,navigateTo} from './ui/favorites-navigation.js?v=20261025-refresh-scroll-v2';
 import {iconMarkup} from './ui/icons.js?v=20261022-context-gloss-v1';
 import {getLanguage,translate,translateTree} from './ui/language.js?v=20261023-add-hhx-desktop';
