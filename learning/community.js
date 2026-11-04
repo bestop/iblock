@@ -1,0 +1,19 @@
+import {getLanguage} from './ui/language.js?v=20261023-add-hhx-desktop';
+// Optional server-configured entry: unavailable settings never expose a dead menu item.
+export function attachCommunity(menu,options,anchor){
+ const button=document.createElement('button');button.type='button';button.hidden=true;button.className='community-menu-entry';
+ button.innerHTML='<svg class="ui-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/></svg><span></span>';
+ anchor.after(button);
+ const dialog=document.createElement('dialog');dialog.className='community-dialog';dialog.setAttribute('aria-labelledby','community-title');dialog.setAttribute('aria-describedby','community-description');dialog.tabIndex=-1;
+ dialog.innerHTML='<form method="dialog"><button class="community-close" aria-label="关闭" value="close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></form><h2 id="community-title"></h2><p id="community-description" class="community-description"></p><img width="240" height="240" alt="学习交流群二维码"><p class="community-help"></p><p class="community-error" role="status" hidden></p>';
+ document.body.append(dialog);
+ let imageUrl='',requestId=0,previousOverflow='';const image=dialog.querySelector('img'),error=dialog.querySelector('.community-error');
+ function labels(){const en=getLanguage()==='en';button.querySelector('span').textContent=en?'Join the learning group':'加入学习交流群';dialog.querySelector('h2').textContent=en?'Join the learning group':'加入学习交流群';dialog.querySelector('.community-description').textContent=en?'Share learning tips, get content updates and ask for help.':'交流学习方法，获取内容更新，反馈使用问题。';dialog.querySelector('.community-help').textContent=en?'Save the QR code, then open WeChat to scan it.':'保存二维码，打开微信扫一扫。';dialog.querySelector('.community-close').setAttribute('aria-label',en?'Close':'关闭');image.alt=en?'Learning group QR code':'学习交流群二维码';error.textContent=en?'The QR code is unavailable. Please try again later.':'二维码暂时无法加载，请稍后重试。'}
+ labels();window.addEventListener('hhx-language-change',labels);
+ async function refresh(){const id=++requestId;try{const r=await fetch('/api/community',{credentials:'same-origin',cache:'no-store'});if(!r.ok)throw Error();const data=await r.json();if(id!==requestId)return;imageUrl=data.enabled&&typeof data.imageUrl==='string'&&data.imageUrl.startsWith('/api/community/qr?')?data.imageUrl:'';button.hidden=!imageUrl;if(!imageUrl&&dialog.open)dialog.close()}catch{if(id===requestId){button.hidden=true;imageUrl=''}}}
+ image.addEventListener('error',()=>{image.hidden=true;error.hidden=false});image.addEventListener('load',()=>{image.hidden=false;error.hidden=true});
+ button.addEventListener('click',()=>{if(!imageUrl)return;menu.open=false;image.hidden=false;error.hidden=true;image.src=imageUrl;previousOverflow=document.documentElement.style.overflow;document.documentElement.style.overflow='hidden';dialog.showModal();dialog.focus({preventScroll:true})});
+ dialog.addEventListener('close',()=>{document.documentElement.style.overflow=previousOverflow;menu.querySelector('summary')?.focus({preventScroll:true})});
+ dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});
+ menu.addEventListener('toggle',()=>{if(menu.open)refresh()});window.addEventListener('pageshow',refresh);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});refresh();
+}
